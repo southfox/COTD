@@ -7,6 +7,8 @@
 //
 
 #import "COTDAppDelegate.h"
+#import "COTDParse.h"
+#import "COTDGoogle.h"
 
 @interface COTDAppDelegate ()
 
@@ -17,6 +19,22 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    
+    [[COTDParse sharedInstance] configureWithLaunchOptions:launchOptions finishBlock:^(BOOL succeeded, NSError *error) {
+        if (error)
+        {
+            NSLog(@"error = %@", error);
+        }
+        else
+        {
+            if (![[COTDParse sharedInstance] currentUserImageUrl])
+            {
+                [[COTDGoogle sharedInstance] queryTerm:@"capybara" finishBlock:^(BOOL succeeded, NSString *imageUrl, NSError *error) {
+                    [[COTDParse sharedInstance] changeUserImageUrl:imageUrl];
+                }];
+            }
+        }
+    }];
     return YES;
 }
 

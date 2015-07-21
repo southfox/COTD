@@ -6,13 +6,27 @@
 //  Copyright (c) 2015 Javier Fuchs. All rights reserved.
 //
 
+#ifndef __COTD__COTDUserImage__
+#define __COTD__COTDUserImage__
+
 #import <Parse/Parse.h>
+#import <PFUser.h>
 
-@class COTDImage;
+#include <stdio.h>
+#include <string>
 
-@interface COTDUserImage : PFObject
+#include "COTDImage.h"
 
-@property (nonatomic) PFUser *user;
-@property (nonatomic) COTDImage *image;
+class COTDUserImage {
+    
+protected:
+    std::string image;
+    
+public:
+    
+    const std::string& getImage() const;
+    void setImage(const std::string& image);
+    
+};
 
-@end
+#endif /* defined(__COTD__COTDUserImage__) */

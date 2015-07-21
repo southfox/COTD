@@ -1,0 +1,461 @@
+{
+    "kind": "customsearch#search",
+    "url": {
+        "type": "application/json",
+        "template": "https://www.googleapis.com/customsearch/v1?q={searchTerms}&num={count?}&start={startIndex?}&lr={language?}&safe={safe?}&cx={cx?}&cref={cref?}&sort={sort?}&filter={filter?}&gl={gl?}&cr={cr?}&googlehost={googleHost?}&c2coff={disableCnTwTranslation?}&hq={hq?}&hl={hl?}&siteSearch={siteSearch?}&siteSearchFilter={siteSearchFilter?}&exactTerms={exactTerms?}&excludeTerms={excludeTerms?}&linkSite={linkSite?}&orTerms={orTerms?}&relatedSite={relatedSite?}&dateRestrict={dateRestrict?}&lowRange={lowRange?}&highRange={highRange?}&searchType={searchType}&fileType={fileType?}&rights={rights?}&imgSize={imgSize?}&imgType={imgType?}&imgColorType={imgColorType?}&imgDominantColor={imgDominantColor?}&alt=json"
+    },
+    "queries": {
+        "nextPage": [
+            {
+                "title": "Google Custom Search - capybara",
+                "totalResults": "239000",
+                "searchTerms": "capybara",
+                "count": 10,
+                "startIndex": 11,
+                "inputEncoding": "utf8",
+                "outputEncoding": "utf8",
+                "safe": "off",
+                "cx": "003054679763599795063:tka3twkxrbw"
+            }
+        ],
+        "request": [
+            {
+                "title": "Google Custom Search - capybara",
+                "totalResults": "239000",
+                "searchTerms": "capybara",
+                "count": 10,
+                "startIndex": 1,
+                "inputEncoding": "utf8",
+                "outputEncoding": "utf8",
+                "safe": "off",
+                "cx": "003054679763599795063:tka3twkxrbw"
+            }
+        ]
+    },
+    "context": {
+        "title": "Com"
+    },
+    "searchInformation": {
+        "searchTime": 0.338544,
+        "formattedSearchTime": "0.34",
+        "totalResults": "239000",
+        "formattedTotalResults": "239,000"
+    },
+    "items": [
+        {
+            "kind": "customsearch#result",
+            "title": "Capybara - Wikipedia, the free encyclopedia",
+            "htmlTitle": "<b>Capybara</b> - Wikipedia, the free encyclopedia",
+            "link": "https://en.wikipedia.org/wiki/Capybara",
+            "displayLink": "en.wikipedia.org",
+            "snippet": "The capybara (Hydrochoerus hydrochaeris) is a large rodent of the genus \nHydrochoerus of which the only other member is the lesser capybara (\nHydrochoerusÂ ...",
+            "htmlSnippet": "The <b>capybara</b> (Hydrochoerus hydrochaeris) is a large rodent of the genus <br>\nHydrochoerus of which the only other member is the lesser <b>capybara</b> (<br>\nHydrochoerus&nbsp;...",
+            "cacheId": "fg8n2Q7k_iQJ",
+            "formattedUrl": "https://en.wikipedia.org/wiki/Capybara",
+            "htmlFormattedUrl": "https://en.wikipedia.org/wiki/<b>Capybara</b>",
+            "pagemap": {
+                "cse_image": [
+                    {
+                        "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Hydrochoeris_hydrochaeris_Zoo_Praha_2011-3.jpg/220px-Hydrochoeris_hydrochaeris_Zoo_Praha_2011-3.jpg"
+                    }
+                ],
+                "cse_thumbnail": [
+                    {
+                        "width": "176",
+                        "height": "129",
+                        "src": "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcShPd1UujlmDDbpL8_MIGS4RXfhSPbdZBU_e2w-zKMowbEStbCN-VACuo_u"
+                    }
+                ]
+            }
+        },
+        {
+            "kind": "customsearch#result",
+            "title": "jnicklas/capybara Â· GitHub",
+            "htmlTitle": "jnicklas/<b>capybara</b> Â· GitHub",
+            "link": "https://github.com/jnicklas/capybara",
+            "displayLink": "github.com",
+            "snippet": "4 days ago ... Acceptance test framework for web applications. Contribute to capybara \ndevelopment by creating an account on GitHub.",
+            "htmlSnippet": "4 days ago <b>...</b> Acceptance test framework for web applications. Contribute to <b>capybara</b> <br>\ndevelopment by creating an account on GitHub.",
+            "cacheId": "Ju15x29vkwoJ",
+            "formattedUrl": "https://github.com/jnicklas/capybara",
+            "htmlFormattedUrl": "https://github.com/jnicklas/<b>capybara</b>",
+            "pagemap": {
+                "cse_image": [
+                    {
+                        "src": "https://avatars1.githubusercontent.com/u/134?v=3&s=400"
+                    }
+                ],
+                "cse_thumbnail": [
+                    {
+                        "width": "225",
+                        "height": "225",
+                        "src": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQFoZyuPw52w_yWtErzUKNXfoKCVN2MsC9mwaNq0lgF106aYTulyM4z_3Q"
+                    }
+                ],
+                "webpage": [
+                    {
+                        "keywords": "Ruby",
+                        "maincontentofpage": "Capybara Capybara helps you test web applications by simulating how a real user would interact with your app. It is agnostic about the driver running your tests and comes with Rack::Test and..."
+                    }
+                ],
+                "metatags": [
+                    {
+                        "viewport": "width=1020",
+                        "fb:app_id": "1401488693436528",
+                        "twitter:site": "@github",
+                        "twitter:card": "summary",
+                        "twitter:title": "jnicklas/capybara",
+                        "twitter:description": "Acceptance test framework for web applications. Contribute to capybara development by creating an account on GitHub.",
+                        "twitter:image:src": "https://avatars1.githubusercontent.com/u/134?v=3&s=400",
+                        "og:site_name": "GitHub",
+                        "og:type": "object",
+                        "og:image": "https://avatars1.githubusercontent.com/u/134?v=3&s=400",
+                        "og:title": "jnicklas/capybara",
+                        "og:url": "https://github.com/jnicklas/capybara",
+                        "og:description": "Acceptance test framework for web applications. Contribute to capybara development by creating an account on GitHub.",
+                        "browser-stats-url": "https://api.github.com/_private/browser/stats",
+                        "browser-errors-url": "https://api.github.com/_private/browser/errors",
+                        "pjax-timeout": "1000",
+                        "msapplication-tileimage": "/windows-tile.png",
+                        "msapplication-tilecolor": "#ffffff",
+                        "google-analytics": "UA-3769691-2",
+                        "octolytics-host": "collector.githubapp.com",
+                        "octolytics-script-host": "collector-cdn.github.com",
+                        "octolytics-app-id": "github",
+                        "octolytics-dimension-request_id": "42F94334:1C81:3731CE:55AD493B",
+                        "analytics-event": "Rails, view, files#disambiguate",
+                        "dimension1": "Logged Out",
+                        "is-dotcom": "true",
+                        "hostname": "github.com",
+                        "theme-color": "#4078c0",
+                        "csrf-param": "authenticity_token",
+                        "csrf-token": "0mZ6j8P/mAha9olO/M+I/vvNbnGK1Cu+DRpurEhtStvZLhqdFB8v8Go1MkacMcxn9ktxBvfquUjlBjmAu9RbGA==",
+                        "go-import": "github.com/jnicklas/capybara git https://github.com/jnicklas/capybara.git",
+                        "octolytics-dimension-user_id": "134",
+                        "octolytics-dimension-user_login": "jnicklas",
+                        "octolytics-dimension-repository_id": "361310",
+                        "octolytics-dimension-repository_nwo": "jnicklas/capybara",
+                        "octolytics-dimension-repository_public": "true",
+                        "octolytics-dimension-repository_is_fork": "false",
+                        "octolytics-dimension-repository_network_root_id": "361310",
+                        "octolytics-dimension-repository_network_root_nwo": "jnicklas/capybara"
+                    }
+                ],
+                "breadcrumb": [
+                    {
+                        "url": "jnicklas",
+                        "title": "jnicklas"
+                    }
+                ]
+            }
+        },
+        {
+            "kind": "customsearch#result",
+            "title": "The Capybara Page",
+            "htmlTitle": "The <b>Capybara</b> Page",
+            "link": "http://www.rebsig.com/",
+            "displayLink": "www.rebsig.com",
+            "snippet": "The capybara, Hydrochoerus Hydrochaeris, is a semi-aquatic rodent of South \nAmerica. It weighs about a hundred pounds, and is about 2 feet tall at the \nshoulderÂ ...",
+            "htmlSnippet": "The <b>capybara</b>, Hydrochoerus Hydrochaeris, is a semi-aquatic rodent of South <br>\nAmerica. It weighs about a hundred pounds, and is about 2 feet tall at the <br>\nshoulder&nbsp;...",
+            "cacheId": "5LTK0zlYRiIJ",
+            "formattedUrl": "www.rebsig.com/",
+            "htmlFormattedUrl": "www.rebsig.com/",
+            "pagemap": {
+                "cse_image": [
+                    {
+                        "src": "http://www.rebsig.com/capybara/capy1.jpg"
+                    }
+                ],
+                "cse_thumbnail": [
+                    {
+                        "width": "244",
+                        "height": "206",
+                        "src": "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcRZKWIuKqSo07NMc23CCauDkwmlGlI6FYuMjnoK_WkjU_B-jJPuXmOm5qJs"
+                    }
+                ],
+                "metatags": [
+                    {
+                        "progid": "Word.Document",
+                        "originator": "Microsoft Word 14"
+                    }
+                ]
+            }
+        },
+        {
+            "kind": "customsearch#result",
+            "title": "Capybara",
+            "htmlTitle": "<b>Capybara</b>",
+            "link": "http://jnicklas.github.io/capybara/",
+            "displayLink": "jnicklas.github.io",
+            "snippet": "Test your app with Capybara. Tired of clicking around in your browser trying to \nmake sure your applications work as expected? Capybara is a library written inÂ ...",
+            "htmlSnippet": "Test your app with <b>Capybara</b>. Tired of clicking around in your browser trying to <br>\nmake sure your applications work as expected? <b>Capybara</b> is a library written in&nbsp;...",
+            "cacheId": "UxLtc0vNdvUJ",
+            "formattedUrl": "jnicklas.github.io/capybara/",
+            "htmlFormattedUrl": "jnicklas.github.io/<b>capybara</b>/"
+        },
+        {
+            "kind": "customsearch#result",
+            "title": "Capybara Games",
+            "htmlTitle": "<b>Capybara</b> Games",
+            "link": "http://www.capybaragames.com/",
+            "displayLink": "www.capybaragames.com",
+            "snippet": "Half the fun of STFU comes from controlling a cast of powerful, kooky, and \nsometimes downright bizarre playable characters (19 playable characters if \nanybody'sÂ ...",
+            "htmlSnippet": "Half the fun of STFU comes from controlling a cast of powerful, kooky, and <br>\nsometimes downright bizarre playable characters (19 playable characters if <br>\nanybody&#39;s&nbsp;...",
+            "cacheId": "G88tj5--YnUJ",
+            "formattedUrl": "www.capybaragames.com/",
+            "htmlFormattedUrl": "www.<b>capybara</b>games.com/",
+            "pagemap": {
+                "cse_image": [
+                    {
+                        "src": "http://www.capybaragames.com/images/STFU_Shuhei_Screen.png"
+                    }
+                ],
+                "cse_thumbnail": [
+                    {
+                        "width": "299",
+                        "height": "168",
+                        "src": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQR0PCXB75wgj-0fG-UG5dzWlMrCm3DZzS5_lY6LgMl0RnHMD_lsPkl2ks"
+                    }
+                ]
+            }
+        },
+        {
+            "kind": "customsearch#result",
+            "title": "Capybara | San Diego Zoo Animals",
+            "htmlTitle": "<b>Capybara</b> | San Diego Zoo Animals",
+            "link": "http://animals.sandiegozoo.org/animals/capybara",
+            "displayLink": "animals.sandiegozoo.org",
+            "snippet": "The capybara has something in common with the hippo: its eyes, ears, and \nnostrils are all found near the top of the animal's head. A capy can lift just those \npartsÂ ...",
+            "htmlSnippet": "The <b>capybara</b> has something in common with the hippo: its eyes, ears, and <br>\nnostrils are all found near the top of the animal&#39;s head. A capy can lift just those <br>\nparts&nbsp;...",
+            "cacheId": "FQrOo75Sc4wJ",
+            "formattedUrl": "animals.sandiegozoo.org/animals/capybara",
+            "htmlFormattedUrl": "animals.sandiegozoo.org/animals/<b>capybara</b>",
+            "pagemap": {
+                "cse_image": [
+                    {
+                        "src": "http://animals.sandiegozoo.org/sites/default/files/styles/feeds_animal_thumbnail/public/capybara_thumb.jpg?itok=CIZckDsZ"
+                    }
+                ],
+                "cse_thumbnail": [
+                    {
+                        "width": "225",
+                        "height": "225",
+                        "src": "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSee6gf9dHklH1Uaq-64SFt-G50CBNimjjjAEPT2GiN5rfVWaApGEDDdtQY"
+                    }
+                ],
+                "Item": [
+                    {
+                        "title": "Capybara"
+                    }
+                ]
+            }
+        },
+        {
+            "kind": "customsearch#result",
+            "title": "capybara | RubyGems.org | your community gem host",
+            "htmlTitle": "<b>capybara</b> | RubyGems.org | your community gem host",
+            "link": "https://rubygems.org/gems/capybara/versions/2.4.4",
+            "displayLink": "rubygems.org",
+            "snippet": "Capybara is an integration testing tool for rack based web applications. It \nsimulates how a user would interact with a websiteÂ ...",
+            "htmlSnippet": "<b>Capybara</b> is an integration testing tool for rack based web applications. It <br>\nsimulates how a user would interact with a website&nbsp;...",
+            "cacheId": "rsO9UNbyYNQJ",
+            "formattedUrl": "https://rubygems.org/gems/capybara/versions/2.4.4",
+            "htmlFormattedUrl": "https://rubygems.org/gems/<b>capybara</b>/versions/2.4.4",
+            "pagemap": {
+                "metatags": [
+                    {
+                        "viewport": "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0",
+                        "csrf-param": "authenticity_token",
+                        "csrf-token": "ZmBbx8O/UnJ8HTANmyYLR3tS++OaDb37N2936HIcgJO3ENUsdkiNe8ttyldDsWX3eyhLODxFtwY6Qa/0WwQbuw=="
+                    }
+                ]
+            }
+        },
+        {
+            "kind": "customsearch#result",
+            "title": "Capybara",
+            "htmlTitle": "<b>Capybara</b>",
+            "link": "http://www.capybaramusic.com/",
+            "displayLink": "www.capybaramusic.com",
+            "snippet": "On February 7th, 2012, Capybara released its sophomore album, Dave Drusky. \nIt's a very accessible and human record â an intersection of the warm andÂ ...",
+            "htmlSnippet": "On February 7th, 2012, <b>Capybara</b> released its sophomore album, Dave Drusky. <br>\nIt&#39;s a very accessible and human record â an intersection of the warm and&nbsp;...",
+            "cacheId": "zL4E-iWB6cAJ",
+            "formattedUrl": "www.capybaramusic.com/",
+            "htmlFormattedUrl": "www.<b>capybara</b>music.com/",
+            "pagemap": {
+                "cse_image": [
+                    {
+                        "src": "http://f1.bcbits.com/img/a1431407684_2.jpg"
+                    }
+                ],
+                "cse_thumbnail": [
+                    {
+                        "width": "225",
+                        "height": "225",
+                        "src": "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcTE5AkGG2MUKTHIHaJfC6lZQPcMTUIP9GCTagNR5Cej_XZ3zDgKKfw33SE"
+                    }
+                ],
+                "metatags": [
+                    {
+                        "viewport": "width=device-width, initial-scale=1",
+                        "og:type": "website",
+                        "og:title": "MUSIC - Capybara",
+                        "og:url": "http://www.capybaramusic.com/music"
+                    }
+                ]
+            }
+        },
+        {
+            "kind": "customsearch#result",
+            "title": "5 things you didn't know about capybaras | MNN - Mother Nature ...",
+            "htmlTitle": "5 things you didn&#39;t know about <b>capybaras</b> | MNN - Mother Nature <b>...</b>",
+            "link": "http://www.mnn.com/earth-matters/animals/stories/5-things-you-didnt-know-about-capybaras",
+            "displayLink": "www.mnn.com",
+            "snippet": "Apr 3, 2015 ... The most famous pet capybara is probably Caplin Rous (Rous stands for \"Rodent \nof Unusual Size,\" for all you \"Princess Bride\" fans), and heÂ ...",
+            "htmlSnippet": "Apr 3, 2015 <b>...</b> The most famous pet <b>capybara</b> is probably Caplin Rous (Rous stands for &quot;Rodent <br>\nof Unusual Size,&quot; for all you &quot;Princess Bride&quot; fans), and he&nbsp;...",
+            "cacheId": "OyGFAQfAqxgJ",
+            "formattedUrl": "www.mnn.com/earth.../5-things-you-didnt-know-about-capybaras",
+            "htmlFormattedUrl": "www.mnn.com/earth.../5-things-you-didnt-know-about-<b>capybaras</b>",
+            "pagemap": {
+                "cse_image": [
+                    {
+                        "src": "http://media.mnn.com/assets/images/2015/04/big-capybara.jpg.600x315_q80_crop-smart.jpg"
+                    }
+                ],
+                "cse_thumbnail": [
+                    {
+                        "width": "310",
+                        "height": "163",
+                        "src": "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRvF_KOZ-f_Cu0DBE6Dh6r1F2c5fyubqmsZLtp1Yh_KibhbkyN62lMkVJDt"
+                    }
+                ],
+                "metatags": [
+                    {
+                        "viewport": "width=1165",
+                        "news_keywords": "capybaras, facts, pets",
+                        "twitter:card": "summary_large_image",
+                        "twitter:site": "mothernaturenet",
+                        "twitter:title": "5 things you didn't know about capybaras",
+                        "twitter:description": "Meet the world's largest rodent. He's a gifted swimmer and serves as an excellent 'living chair.'",
+                        "twitter:image:src": "http://media.mnn.com/assets/images/2015/04/big-capybara.jpg.560x0_q80_crop-smart.jpg",
+                        "twitter:domain": "www.mnn.com",
+                        "twitter:url": "http://www.mnn.com/earth-matters/animals/stories/5-things-you-didnt-know-about-capybaras",
+                        "og:title": "5 things you didn't know about capybaras",
+                        "og:url": "http://www.mnn.com/earth-matters/animals/stories/5-things-you-didnt-know-about-capybaras",
+                        "og:description": "Meet the world's largest rodent. He's a gifted swimmer and serves as an excellent 'living chair.'",
+                        "og:image": "http://media.mnn.com/assets/images/2015/04/big-capybara.jpg.600x315_q80_crop-smart.jpg",
+                        "og:type": "article",
+                        "og:site_name": "MNN - Mother Nature Network"
+                    }
+                ]
+            }
+        },
+        {
+            "kind": "customsearch#result",
+            "title": "Making Friends with a Capybara - YouTube",
+            "htmlTitle": "Making Friends with a <b>Capybara</b> - YouTube",
+            "link": "http://www.youtube.com/watch?v=-lqhleCf8R0",
+            "displayLink": "www.youtube.com",
+            "snippet": "Jul 16, 2014 ... When I met this capybara there was an instant bond. We were so happy to see \neach other. Listen to the noises he made when I have himÂ ...",
+            "htmlSnippet": "Jul 16, 2014 <b>...</b> When I met this <b>capybara</b> there was an instant bond. We were so happy to see <br>\neach other. Listen to the noises he made when I have him&nbsp;...",
+            "cacheId": "oYWCkcpYHs0J",
+            "formattedUrl": "www.youtube.com/watch?v=-lqhleCf8R0",
+            "htmlFormattedUrl": "www.youtube.com/watch?v=-lqhleCf8R0",
+            "pagemap": {
+                "cse_image": [
+                    {
+                        "src": "http://i.ytimg.com/vi/-lqhleCf8R0/maxresdefault.jpg"
+                    }
+                ],
+                "videoobject": [
+                    {
+                        "url": "http://www.youtube.com/watch?v=-lqhleCf8R0",
+                        "name": "Making Friends with a Capybara",
+                        "description": "When I met this capybara there was an instant bond. We were so happy to see each other. Listen to the noises he made when I have him attention. It was a wond...",
+                        "paid": "False",
+                        "channelid": "UCt8UUqwAccfhetgC7alponA",
+                        "videoid": "-lqhleCf8R0",
+                        "duration": "PT2M47S",
+                        "unlisted": "False",
+                        "thumbnailurl": "http://i.ytimg.com/vi/-lqhleCf8R0/maxresdefault.jpg",
+                        "embedurl": "https://www.youtube.com/embed/-lqhleCf8R0",
+                        "playertype": "HTML5 Flash",
+                        "width": "1280",
+                        "height": "720",
+                        "isfamilyfriendly": "True",
+                        "regionsallowed": "AD,AE,AF,AG,AI,AL,AM,AO,AQ,AR,AS,AT,AU,AW,AX,AZ,BA,BB,BD,BE,BF,BG,BH,BI,BJ,BL,BM,BN,BO,BQ,BR,BS,BT,BV,BW,BY,BZ,CA,CC,CD,CF,CG,CH,CI,CK,CL,CM,CN,CO,CR,CU,CV,CW,CX,CY,CZ,DE,DJ,DK,DM,DO,DZ,EC,EE,EG,EH...",
+                        "interactioncount": "96497",
+                        "datepublished": "2014-07-16",
+                        "genre": "Pets & Animals"
+                    }
+                ],
+                "person": [
+                    {
+                        "url": "http://www.youtube.com/user/MartinJFaulks"
+                    },
+                    {
+                        "url": "https://plus.google.com/106053663252828424296"
+                    }
+                ],
+                "cse_thumbnail": [
+                    {
+                        "width": "300",
+                        "height": "168",
+                        "src": "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQsTlvs5qROSPOomzT9rkon1A5C2LneSZmYqiUC6H07U0suziE1XTYFqf8"
+                    }
+                ],
+                "metatags": [
+                    {
+                        "title": "Making Friends with a Capybara",
+                        "og:site_name": "YouTube",
+                        "og:url": "http://www.youtube.com/watch?v=-lqhleCf8R0",
+                        "og:title": "Making Friends with a Capybara",
+                        "og:image": "http://i.ytimg.com/vi/-lqhleCf8R0/maxresdefault.jpg",
+                        "og:description": "When I met this capybara there was an instant bond. We were so happy to see each other. Listen to the noises he made when I have him attention. It was a wond...",
+                        "al:ios:app_store_id": "544007664",
+                        "al:ios:app_name": "YouTube",
+                        "al:ios:url": "vnd.youtube://www.youtube.com/watch?v=-lqhleCf8R0&feature=applinks",
+                        "al:android:url": "vnd.youtube://www.youtube.com/watch?v=-lqhleCf8R0&feature=applinks",
+                        "al:android:app_name": "YouTube",
+                        "al:android:package": "com.google.android.youtube",
+                        "al:web:url": "http://www.youtube.com/watch?v=-lqhleCf8R0&feature=applinks",
+                        "og:type": "video",
+                        "og:video:url": "https://www.youtube.com/embed/-lqhleCf8R0",
+                        "og:video:secure_url": "https://www.youtube.com/embed/-lqhleCf8R0",
+                        "og:video:type": "text/html",
+                        "og:video:width": "1280",
+                        "og:video:height": "720",
+                        "og:video:tag": "Capybara (Animal)",
+                        "fb:app_id": "87741124305",
+                        "twitter:card": "player",
+                        "twitter:site": "@youtube",
+                        "twitter:url": "http://www.youtube.com/watch?v=-lqhleCf8R0",
+                        "twitter:title": "Making Friends with a Capybara",
+                        "twitter:description": "When I met this capybara there was an instant bond. We were so happy to see each other. Listen to the noises he made when I have him attention. It was a wond...",
+                        "twitter:image": "http://i.ytimg.com/vi/-lqhleCf8R0/maxresdefault.jpg",
+                        "twitter:app:name:iphone": "YouTube",
+                        "twitter:app:id:iphone": "544007664",
+                        "twitter:app:name:ipad": "YouTube",
+                        "twitter:app:id:ipad": "544007664",
+                        "twitter:app:url:iphone": "vnd.youtube://www.youtube.com/watch?v=-lqhleCf8R0&feature=applinks",
+                        "twitter:app:url:ipad": "vnd.youtube://www.youtube.com/watch?v=-lqhleCf8R0&feature=applinks",
+                        "twitter:app:name:googleplay": "YouTube",
+                        "twitter:app:id:googleplay": "com.google.android.youtube",
+                        "twitter:app:url:googleplay": "http://www.youtube.com/watch?v=-lqhleCf8R0",
+                        "twitter:player": "https://www.youtube.com/embed/-lqhleCf8R0",
+                        "twitter:player:width": "1280",
+                        "twitter:player:height": "720",
+                        "attribution": "MartinJFaulks%2Buser/"
+                    }
+                ],
+                "imageobject": [
+                    {
+                        "url": "http://i.ytimg.com/vi/-lqhleCf8R0/maxresdefault.jpg",
+                        "width": "1280",
+                        "height": "720"
+                    }
+                ]
+            }
+        }
+    ]
+}

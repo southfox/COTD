@@ -14,8 +14,13 @@
 		95B0F7981B5DD5C3000BEE94 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 95B0F7971B5DD5C3000BEE94 /* Images.xcassets */; };
 		95B0F79B1B5DD5C3000BEE94 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 95B0F7991B5DD5C3000BEE94 /* LaunchScreen.xib */; };
 		95B0F7A71B5DD5C3000BEE94 /* COTDTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 95B0F7A61B5DD5C3000BEE94 /* COTDTests.m */; };
-		95B0F7B81B5DF95C000BEE94 /* COTDImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 95B0F7B71B5DF95C000BEE94 /* COTDImage.m */; };
-		95B0F7BC1B5E074A000BEE94 /* COTDUserImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 95B0F7BB1B5E074A000BEE94 /* COTDUserImage.m */; };
+		95B0F7BF1B5E0D6B000BEE94 /* COTDParse.mm in Sources */ = {isa = PBXBuildFile; fileRef = 95B0F7BE1B5E0D6B000BEE94 /* COTDParse.mm */; };
+		95B0F7C21B5E113C000BEE94 /* NSError+COTD.m in Sources */ = {isa = PBXBuildFile; fileRef = 95B0F7C11B5E113C000BEE94 /* NSError+COTD.m */; };
+		95B0F7C61B5E1212000BEE94 /* COTDImage.mm in Sources */ = {isa = PBXBuildFile; fileRef = 95B0F7C41B5E1212000BEE94 /* COTDImage.mm */; };
+		95B0F7C71B5E16BD000BEE94 /* COTDUserImage.mm in Sources */ = {isa = PBXBuildFile; fileRef = 95B0F7BB1B5E074A000BEE94 /* COTDUserImage.mm */; };
+		95B0F7CB1B5E232B000BEE94 /* UIView+COTD.m in Sources */ = {isa = PBXBuildFile; fileRef = 95B0F7CA1B5E232B000BEE94 /* UIView+COTD.m */; };
+		95B0F7CE1B5E274E000BEE94 /* NSDate+COTD.m in Sources */ = {isa = PBXBuildFile; fileRef = 95B0F7CD1B5E274E000BEE94 /* NSDate+COTD.m */; };
+		95B0F7D11B5E3030000BEE94 /* COTDGoogle.mm in Sources */ = {isa = PBXBuildFile; fileRef = 95B0F7D01B5E3030000BEE94 /* COTDGoogle.mm */; };
 		DED9575C25BF4709B6040A16 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 269A886D56DF4157573133BF /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -45,10 +50,20 @@
 		95B0F7A01B5DD5C3000BEE94 /* COTDTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = COTDTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		95B0F7A51B5DD5C3000BEE94 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		95B0F7A61B5DD5C3000BEE94 /* COTDTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = COTDTests.m; sourceTree = "<group>"; };
-		95B0F7B61B5DF95C000BEE94 /* COTDImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COTDImage.h; sourceTree = "<group>"; };
-		95B0F7B71B5DF95C000BEE94 /* COTDImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COTDImage.m; sourceTree = "<group>"; };
 		95B0F7BA1B5E074A000BEE94 /* COTDUserImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COTDUserImage.h; sourceTree = "<group>"; };
-		95B0F7BB1B5E074A000BEE94 /* COTDUserImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COTDUserImage.m; sourceTree = "<group>"; };
+		95B0F7BB1B5E074A000BEE94 /* COTDUserImage.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = COTDUserImage.mm; sourceTree = "<group>"; };
+		95B0F7BD1B5E0D6B000BEE94 /* COTDParse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COTDParse.h; sourceTree = "<group>"; };
+		95B0F7BE1B5E0D6B000BEE94 /* COTDParse.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = COTDParse.mm; sourceTree = "<group>"; };
+		95B0F7C01B5E113C000BEE94 /* NSError+COTD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSError+COTD.h"; path = "COTD/NSError+COTD.h"; sourceTree = "<group>"; };
+		95B0F7C11B5E113C000BEE94 /* NSError+COTD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSError+COTD.m"; path = "COTD/NSError+COTD.m"; sourceTree = "<group>"; };
+		95B0F7C41B5E1212000BEE94 /* COTDImage.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = COTDImage.mm; sourceTree = "<group>"; };
+		95B0F7C51B5E1212000BEE94 /* COTDImage.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = COTDImage.h; sourceTree = "<group>"; };
+		95B0F7C91B5E232B000BEE94 /* UIView+COTD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+COTD.h"; path = "COTD/UIView+COTD.h"; sourceTree = "<group>"; };
+		95B0F7CA1B5E232B000BEE94 /* UIView+COTD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+COTD.m"; path = "COTD/UIView+COTD.m"; sourceTree = "<group>"; };
+		95B0F7CC1B5E274E000BEE94 /* NSDate+COTD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDate+COTD.h"; path = "COTD/NSDate+COTD.h"; sourceTree = "<group>"; };
+		95B0F7CD1B5E274E000BEE94 /* NSDate+COTD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDate+COTD.m"; path = "COTD/NSDate+COTD.m"; sourceTree = "<group>"; };
+		95B0F7CF1B5E3030000BEE94 /* COTDGoogle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COTDGoogle.h; sourceTree = "<group>"; };
+		95B0F7D01B5E3030000BEE94 /* COTDGoogle.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = COTDGoogle.mm; sourceTree = "<group>"; };
 		B67DFF434635818C44EC7EA4 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -83,6 +98,8 @@
 		95B0F77E1B5DD5C3000BEE94 = {
 			isa = PBXGroup;
 			children = (
+				95B0F7C81B5E1E3F000BEE94 /* Singleton */,
+				95B0F7C31B5E1141000BEE94 /* Categories */,
 				95B0F7B91B5DF966000BEE94 /* Model */,
 				95B0F7891B5DD5C3000BEE94 /* COTD */,
 				95B0F7A31B5DD5C3000BEE94 /* COTDTests */,
@@ -145,12 +162,37 @@
 		95B0F7B91B5DF966000BEE94 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				95B0F7B61B5DF95C000BEE94 /* COTDImage.h */,
-				95B0F7B71B5DF95C000BEE94 /* COTDImage.m */,
+				95B0F7C51B5E1212000BEE94 /* COTDImage.h */,
+				95B0F7C41B5E1212000BEE94 /* COTDImage.mm */,
 				95B0F7BA1B5E074A000BEE94 /* COTDUserImage.h */,
-				95B0F7BB1B5E074A000BEE94 /* COTDUserImage.m */,
+				95B0F7BB1B5E074A000BEE94 /* COTDUserImage.mm */,
 			);
 			name = Model;
+			path = COTD;
+			sourceTree = "<group>";
+		};
+		95B0F7C31B5E1141000BEE94 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				95B0F7C01B5E113C000BEE94 /* NSError+COTD.h */,
+				95B0F7C11B5E113C000BEE94 /* NSError+COTD.m */,
+				95B0F7C91B5E232B000BEE94 /* UIView+COTD.h */,
+				95B0F7CA1B5E232B000BEE94 /* UIView+COTD.m */,
+				95B0F7CC1B5E274E000BEE94 /* NSDate+COTD.h */,
+				95B0F7CD1B5E274E000BEE94 /* NSDate+COTD.m */,
+			);
+			name = Categories;
+			sourceTree = "<group>";
+		};
+		95B0F7C81B5E1E3F000BEE94 /* Singleton */ = {
+			isa = PBXGroup;
+			children = (
+				95B0F7BD1B5E0D6B000BEE94 /* COTDParse.h */,
+				95B0F7BE1B5E0D6B000BEE94 /* COTDParse.mm */,
+				95B0F7CF1B5E3030000BEE94 /* COTDGoogle.h */,
+				95B0F7D01B5E3030000BEE94 /* COTDGoogle.mm */,
+			);
+			name = Singleton;
 			path = COTD;
 			sourceTree = "<group>";
 		};
@@ -298,10 +340,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				95B0F7931B5DD5C3000BEE94 /* COTDViewController.mm in Sources */,
+				95B0F7C61B5E1212000BEE94 /* COTDImage.mm in Sources */,
+				95B0F7C71B5E16BD000BEE94 /* COTDUserImage.mm in Sources */,
+				95B0F7C21B5E113C000BEE94 /* NSError+COTD.m in Sources */,
+				95B0F7BF1B5E0D6B000BEE94 /* COTDParse.mm in Sources */,
 				95B0F7901B5DD5C3000BEE94 /* COTDAppDelegate.mm in Sources */,
-				95B0F7BC1B5E074A000BEE94 /* COTDUserImage.m in Sources */,
+				95B0F7CB1B5E232B000BEE94 /* UIView+COTD.m in Sources */,
 				95B0F78D1B5DD5C3000BEE94 /* main.m in Sources */,
-				95B0F7B81B5DF95C000BEE94 /* COTDImage.m in Sources */,
+				95B0F7D11B5E3030000BEE94 /* COTDGoogle.mm in Sources */,
+				95B0F7CE1B5E274E000BEE94 /* NSDate+COTD.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

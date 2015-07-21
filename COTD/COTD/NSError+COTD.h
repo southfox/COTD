@@ -1,13 +1,15 @@
 //
-//  COTDUserImage.m
+//  NSError+COTD.h
 //  COTD
 //
 //  Created by Javier Fuchs on 7/21/15.
 //  Copyright (c) 2015 Javier Fuchs. All rights reserved.
 //
 
-#import "COTDUserImage.h"
+#import <Foundation/Foundation.h>
 
-@implementation COTDUserImage
+@interface NSError(COTD)
+
++ (id)errorWithMessage:(NSString *)message;
 
 @end

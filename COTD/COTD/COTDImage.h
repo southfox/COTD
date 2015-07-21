@@ -6,11 +6,28 @@
 //  Copyright (c) 2015 Javier Fuchs. All rights reserved.
 //
 
-#import <Parse/Parse.h>
+#ifndef __COTD__COTDImage__
+#define __COTD__COTDImage__
 
-@interface COTDImage : PFObject
+#include <stdio.h>
+#include <string>
 
-@property (nonatomic) NSString *fullUrl;
-@property (nonatomic) NSNumber *likes;
+class COTDImage {
+private:
+    std::string objectId;
+    std::string fullUrl;
+    int likes;
+    
+public:
+    
+    const std::string& getObjectId() const;
+    void setObjectId(const std::string& objectId);
 
-@end
+    const std::string& getFullUrl() const;
+    void setFullUrl(const std::string& fullUrl);
+
+    const int getLikes() const;
+    void setLikes(const int likes);
+    
+};
+#endif /* defined(__COTD__COTDImage__) */
