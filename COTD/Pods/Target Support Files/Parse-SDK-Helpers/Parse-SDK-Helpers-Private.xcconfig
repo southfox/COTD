@@ -1,0 +1,6 @@
+#include "Parse-SDK-Helpers.xcconfig"
+GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
+HEADER_SEARCH_PATHS = "${PODS_ROOT}/Headers/Private" "${PODS_ROOT}/Headers/Private/Parse-SDK-Helpers" "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/AFNetworking" "${PODS_ROOT}/Headers/Public/Bolts" "${PODS_ROOT}/Headers/Public/Facebook-iOS-SDK" "${PODS_ROOT}/Headers/Public/Facebook-iOS-SDK/FacebookSDK" "${PODS_ROOT}/Headers/Public/Parse-SDK-Helpers" "${PODS_ROOT}/Headers/Public/Parse-iOS-SDK" "${PODS_ROOT}/Headers/Public/Parse-iOS-SDK/Parse"
+OTHER_LDFLAGS = ${PARSE_SDK_HELPERS_OTHER_LDFLAGS} -ObjC
+PODS_ROOT = ${SRCROOT}
+SKIP_INSTALL = YES

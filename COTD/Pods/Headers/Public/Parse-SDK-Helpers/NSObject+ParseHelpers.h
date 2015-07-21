@@ -1,0 +1,1 @@
+../../../Parse-SDK-Helpers/Main/Src/Core/NSObject+ParseHelpers.h

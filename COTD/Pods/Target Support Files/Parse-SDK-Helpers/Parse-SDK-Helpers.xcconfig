@@ -1,0 +1,1 @@
+PARSE_SDK_HELPERS_OTHER_LDFLAGS = -framework "Foundation"
