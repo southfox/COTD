@@ -15,6 +15,7 @@
 		95B0F79B1B5DD5C3000BEE94 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 95B0F7991B5DD5C3000BEE94 /* LaunchScreen.xib */; };
 		95B0F7A71B5DD5C3000BEE94 /* COTDTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 95B0F7A61B5DD5C3000BEE94 /* COTDTests.m */; };
 		95B0F7B81B5DF95C000BEE94 /* COTDImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 95B0F7B71B5DF95C000BEE94 /* COTDImage.m */; };
+		95B0F7BC1B5E074A000BEE94 /* COTDUserImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 95B0F7BB1B5E074A000BEE94 /* COTDUserImage.m */; };
 		DED9575C25BF4709B6040A16 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 269A886D56DF4157573133BF /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -46,6 +47,8 @@
 		95B0F7A61B5DD5C3000BEE94 /* COTDTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = COTDTests.m; sourceTree = "<group>"; };
 		95B0F7B61B5DF95C000BEE94 /* COTDImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COTDImage.h; sourceTree = "<group>"; };
 		95B0F7B71B5DF95C000BEE94 /* COTDImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COTDImage.m; sourceTree = "<group>"; };
+		95B0F7BA1B5E074A000BEE94 /* COTDUserImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COTDUserImage.h; sourceTree = "<group>"; };
+		95B0F7BB1B5E074A000BEE94 /* COTDUserImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COTDUserImage.m; sourceTree = "<group>"; };
 		B67DFF434635818C44EC7EA4 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -144,6 +147,8 @@
 			children = (
 				95B0F7B61B5DF95C000BEE94 /* COTDImage.h */,
 				95B0F7B71B5DF95C000BEE94 /* COTDImage.m */,
+				95B0F7BA1B5E074A000BEE94 /* COTDUserImage.h */,
+				95B0F7BB1B5E074A000BEE94 /* COTDUserImage.m */,
 			);
 			name = Model;
 			path = COTD;
@@ -294,6 +299,7 @@
 			files = (
 				95B0F7931B5DD5C3000BEE94 /* COTDViewController.mm in Sources */,
 				95B0F7901B5DD5C3000BEE94 /* COTDAppDelegate.mm in Sources */,
+				95B0F7BC1B5E074A000BEE94 /* COTDUserImage.m in Sources */,
 				95B0F78D1B5DD5C3000BEE94 /* main.m in Sources */,
 				95B0F7B81B5DF95C000BEE94 /* COTDImage.m in Sources */,
 			);

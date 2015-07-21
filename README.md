@@ -35,8 +35,11 @@ Double tap de screen: shows the 10 most-liked images in the list
 
 
 1. create the database with the 2 tables in parse.com, take note of the api key.
+	user: javier.fuchs@gmail.com (database COTD)
 2. create a empty project with cocoa pods libraries that includes: google search engine and parse library (use the api key here)
-3. create the 2 entities for image_likes: COTDImageLike and user_image: COTDUserImage
+	Using json approach https://www.googleapis.com/customsearch/v1?key=AIzaSyADOPSjmHQYFFf9ZnWTqVQ3kPRwr5ND6l8&cx=003054679763599795063:tka3twkxrbw&q=capybara
+	cocoa pods library does not exist anymore for iOS
+3. create the 2 entities for image_likes: COTDImage and user_image: COTDUserImage
 4. using the UI designer in Xcode create the single view that will show the picture of the capybara
 5. add a toolbar with 1 button: like calls action likeImage()
 6. add 2 gesture recognisers: single-tap calls action showsInputField(), double-tap calls action showsTenMostLiked()

@@ -9,6 +9,7 @@
 #import "COTDViewController.h"
 
 @interface COTDViewController ()
+@property (weak, nonatomic) IBOutlet UIImageView *imageView;
 
 @end
 
@@ -22,6 +23,7 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+    
 }
 
 @end

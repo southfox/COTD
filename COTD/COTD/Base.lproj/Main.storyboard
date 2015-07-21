@@ -15,11 +15,27 @@
                     <view key="view" contentMode="scaleToFill" id="kh9-bI-dsS">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="capybara" translatesAutoresizingMaskIntoConstraints="NO" id="DXX-sQ-EGX">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                            </imageView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="DXX-sQ-EGX" firstAttribute="height" secondItem="kh9-bI-dsS" secondAttribute="height" id="h7P-MW-qiy"/>
+                            <constraint firstItem="DXX-sQ-EGX" firstAttribute="width" secondItem="kh9-bI-dsS" secondAttribute="width" id="pba-9Z-tHX"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="imageView" destination="DXX-sQ-EGX" id="2jI-Hh-1BI"/>
+                        <outlet property="view" destination="kh9-bI-dsS" id="OJI-yb-5Eq"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
         </scene>
     </scenes>
+    <resources>
+        <image name="capybara" width="600" height="397"/>
+    </resources>
 </document>

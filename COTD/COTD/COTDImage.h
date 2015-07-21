@@ -10,4 +10,7 @@
 
 @interface COTDImage : PFObject
 
+@property (nonatomic) NSString *fullUrl;
+@property (nonatomic) NSNumber *likes;
+
 @end
