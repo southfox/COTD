@@ -11,5 +11,6 @@
 @interface NSDate(COTD)
 
 - (NSString *)formattedDate;
+- (NSDate *)addDays:(NSInteger)days;
 
 @end

@@ -39,7 +39,10 @@
     return self;
 }
 
-#define URL @"https://www.googleapis.com/customsearch/v1?key=AIzaSyADOPSjmHQYFFf9ZnWTqVQ3kPRwr5ND6l8&cx=003054679763599795063:tka3twkxrbw&searchType=image&items(link,title)&start=1&num=1&q=capybara"
+//#define URL @"https://www.googleapis.com/customsearch/v1?key=AIzaSyADOPSjmHQYFFf9ZnWTqVQ3kPRwr5ND6l8&cx=003054679763599795063:tka3twkxrbw&searchType=image&items(link,title)&start=1&num=1&q=capybara"
+//#define URL @"https://www.googleapis.com/customsearch/v1?key=AIzaSyDipywri5f6D__qqcCgvbBzP9uF5xbP9b0&cx=003054679763599795063:tka3twkxrbw&searchType=image&items(link,title)&start=1&num=1&q=capybara"
+//#define URL @"https://www.googleapis.com/customsearch/v1?key=AIzaSyCv-rIYBwljnGmgJAxMIh8wBaXpqT6U-T0&cx=003054679763599795063:tka3twkxrbw&searchType=image&items(link,title)&start=1&num=1&q=capybara"
+#define URL @"https://www.googleapis.com/customsearch/v1?key=AIzaSyDhZSxw5rAjmGLHGBJH5ouHDWnMg42LW4g&cx=003054679763599795063:tka3twkxrbw&searchType=image&items(link,title)&start=1&num=1&q=capybara"
 
 
 - (void)queryTerm:(NSString*)term excludeTerms:(NSString *)excludeTerms finishBlock:(void (^)(BOOL succeeded, NSString *link, NSString *title, NSError *error))finishBlock;
@@ -48,18 +51,16 @@
     
     NSString *urlString = URL;
     
-    //https://www.googleapis.com/customsearch/v1?key=AIzaSyADOPSjmHQYFFf9ZnWTqVQ3kPRwr5ND6l8&cx=003054679763599795063:tka3twkxrbw&q=capybara%20cute&searchType=image&safe=high&num=1&start=100&fields=items(link,title)&excludeTerms=%22babies%20-%20Terribly%20Cute%22%20%22Capybara%20on%20Pinterest%20|%20Guinea%20Pigs,%20Book%20Projects%20and%20Dachshund%22%20%22Capybara%20in%20Japan%20Take%20Baths,%20Think%20They%27re%20People%20-%20Tofugu%22%20%22Pets%20on%20Pinterest%20|%20Giant%20Dogs,%20Stuffed%20Animals%20and%20Giant%20Stuffed%20...%22%20%22Image%20-%20Capybara-02.jpg%20-%20Cookie%20Clicker%20Wiki%22%20%22File:Capybara%20portrait.jpg%20-%20Wikimedia%20Commons%22%20%22Tuff%27n,%20The%20Cutest%20Baby%20Capybara%20in%20The%20World.%20Part%20One%20...%22%20%22Capybara%20photo%20-%20Hydrochoerus%20hydrochaeris%20-%20G42006%20|%20ARKive%22%20%22Capybara%20on%20Pinterest%20|%20Guinea%20Pigs,%20Book%20Projects%20and%20Dachshund%22
-    
     if (term)
     {
-        NSString *searchTerm = [term stringByReplacingPercentEscapesUsingEncoding:NSStringEncodingConversionExternalRepresentation];
-        [urlString stringByAppendingFormat:@"%@", searchTerm];
+        NSString *searchTerm = [term stringByAddingPercentEscapesUsingEncoding:NSStringEncodingConversionExternalRepresentation];
+        urlString = [urlString stringByAppendingFormat:@"%@", searchTerm];
     }
     
     if (excludeTerms)
     {
-        NSString *excludeSearchTerms = [[NSString stringWithFormat:@"&excludeTerms=%@", excludeTerms] stringByReplacingPercentEscapesUsingEncoding:NSStringEncodingConversionExternalRepresentation];
-        [urlString stringByAppendingFormat:@"%@", excludeSearchTerms];
+        NSString *excludeSearchTerms = [[NSString stringWithFormat:@"&excludeTerms=%@", excludeTerms] stringByAddingPercentEscapesUsingEncoding:NSStringEncodingConversionExternalRepresentation];
+        urlString = [urlString stringByAppendingFormat:@"%@", excludeSearchTerms];
     }
     
     NSURL *serviceUrl = [NSURL URLWithString:urlString];

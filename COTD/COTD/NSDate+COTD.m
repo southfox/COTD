@@ -9,7 +9,6 @@
 
 @implementation NSDate (COTD)
 
-
 - (NSString *)formattedDate
 {
     static NSDateFormatter *formatter = nil;
@@ -19,6 +18,19 @@
         formatter.dateFormat = @"MMM d yyyy";
     }
     return [formatter stringFromDate:self];
+}
+
+
+- (NSDate *)addDays:(NSInteger)days
+{
+    NSCalendar *cal = [NSCalendar currentCalendar];
+    NSDateComponents *comps = [cal components:(NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitYear | NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond) fromDate:self];
+    [comps setHour:0];
+    [comps setMinute:0];
+    [comps setSecond:0];
+    [comps setDay:comps.day + days];
+    return [[NSCalendar currentCalendar] dateFromComponents:comps];
+
 }
 
 

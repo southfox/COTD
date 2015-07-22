@@ -22,15 +22,17 @@ NSString *const COTDParseServiceQueryDidFinishNotification = @"COTDParseServiceQ
 @property (nonatomic) BOOL isUpdating;
 @property (nonatomic) NSMutableArray *images;
 @property (nonatomic) NSMutableArray *userImages;
+@property (nonatomic) NSMutableSet *excludeTerms;
+@property (nonatomic) NSString *searchTerm;
 @end
 
 @implementation COTDParse
 
 - (void)dealloc
 {
-    for (NSValue *imageObject in self.userImages)
+    for (NSValue *userImageObject in self.userImages)
     {
-        COTDUserImage *userImage = (COTDUserImage *)[imageObject pointerValue];
+        COTDUserImage *userImage = (COTDUserImage *)[userImageObject pointerValue];
         delete userImage;
     }
     for (NSValue *imageObject in self.images)
@@ -59,6 +61,9 @@ NSString *const COTDParseServiceQueryDidFinishNotification = @"COTDParseServiceQ
 {
     self = [super init];
     if (self) {
+        self.userImages = [NSMutableArray array];
+        self.images = [NSMutableArray array];
+        self.excludeTerms = [NSMutableSet set];
         [Parse setApplicationId:@"4w57EiBsbDCULkdlP5q1Q0R5bLPDupCbokbNT4KU" clientKey:@"0zDVtm3iDrB1mWEyg5860SFrLYpdsJMYbSFxLhBO"];
     }
     return self;
@@ -124,8 +129,8 @@ NSString *const COTDParseServiceQueryDidFinishNotification = @"COTDParseServiceQ
             }
 
             sself.isUpdating = NO;
-            NSValue *userImageObject = [self.userImages lastObject];
-            if (userImageObject)
+            COTDUserImage *userImage = [self userImage];
+            if (userImage)
             {
                 [[NSNotificationCenter defaultCenter] postNotificationName:COTDParseServiceQueryDidFinishNotification object:nil];
             }
@@ -198,19 +203,20 @@ NSString *const COTDParseServiceQueryDidFinishNotification = @"COTDParseServiceQ
                 COTDUserImage *userImage = new COTDUserImage();
                 for (PFObject *object in objects)
                 {
-                    if ([[object.createdAt formattedDate] isEqualToString:[[NSDate date] formattedDate]])
+                    PFObject *image = object[@"image"];
+                    std::string objectId = [image.objectId UTF8String];
+                    userImage->setImage(objectId);
+                    
+                    NSDate *savedAt = object[@"savedAt"];
+                    userImage->setSavedAt((std::string)[[savedAt formattedDate] UTF8String]);
+                    [sself.userImages addObject:[NSValue valueWithPointer:userImage]];
+                    for (NSValue *imageObject in sself.images)
                     {
-                        PFObject *image = object[@"image"];
-                        userImage->setImage((std::string)[image.objectId UTF8String]);
-                        if (object[@"searchTerm"])
+                        COTDImage *image = (COTDImage *)[imageObject pointerValue];
+                        if (image->getObjectId() == objectId)
                         {
-                            userImage->setSearchTerm((std::string)[object[@"searchTerm"] UTF8String]);
+                            [sself.excludeTerms addObject:[NSString stringWithFormat:@"%s", image->getImageTitle().c_str()]];
                         }
-                        for (NSString *string in object[@"excludeTerms"])
-                        {
-                            userImage->addTermToExclude(string);
-                        }
-                        [sself.userImages addObject:[NSValue valueWithPointer:userImage]];
                     }
                 }
                 finishBlock(YES, nil);
@@ -223,11 +229,24 @@ NSString *const COTDParseServiceQueryDidFinishNotification = @"COTDParseServiceQ
     }];
 }
 
+- (COTDUserImage *)userImage
+{
+    std::string todayStr = [[[self today] formattedDate] UTF8String];
+    COTDUserImage *userImage = nil;
+    for (NSValue *userImageObject in self.userImages)
+    {
+        userImage = (COTDUserImage *)[userImageObject pointerValue];
+        if (userImage->getSavedAt() == todayStr)
+        {
+            return userImage;
+        }
+    }
+    return nil;
+}
 
 - (NSString *)currentUserImageUrl
 {
-    NSValue *userImageObject = [self.userImages lastObject];
-    COTDUserImage *userImage = (COTDUserImage *)[userImageObject pointerValue];
+    COTDUserImage *userImage = [self userImage];
     if (!userImage)
     {
         return nil;
@@ -247,27 +266,14 @@ NSString *const COTDParseServiceQueryDidFinishNotification = @"COTDParseServiceQ
 
 - (NSString *)currentUserSearchTerm
 {
-    NSValue *userImageObject = [self.userImages lastObject];
-    COTDUserImage *userImage = (COTDUserImage *)[userImageObject pointerValue];
-    if (!userImage)
-    {
-        return nil;
-    }
-    return [NSString stringWithUTF8String:userImage->getSearchTerm().c_str()];
+    return self.searchTerm;
 }
 
 - (NSString *)currentUserExcludeTerms
 {
-    NSValue *userImageObject = [self.userImages lastObject];
-    COTDUserImage *userImage = (COTDUserImage *)[userImageObject pointerValue];
-    if (!userImage)
+    if (self.excludeTerms.count)
     {
-        return nil;
-    }
-    const NSArray *excludeTermsArray = userImage->excludeTermsArray();
-    if (excludeTermsArray.count)
-    {
-        NSString *excludeTerms = [userImage->excludeTermsArray() componentsJoinedByString:@" "];
+        NSString *excludeTerms = [[self.excludeTerms allObjects] componentsJoinedByString:@" "];
         return excludeTerms;
     }
     return nil;
@@ -315,12 +321,12 @@ NSString *const COTDParseServiceQueryDidFinishNotification = @"COTDParseServiceQ
                         image->setFullUrl((std::string)[imageUrl UTF8String]);
                         image->setLikes(0);
                         image->setImageTitle((std::string)[title UTF8String]);
-                        
+                        image->setObjectId((std::string)[object.objectId UTF8String]);
+
                         __strong typeof(self) sself = wself;
                         
                         [sself.images addObject:[NSValue valueWithPointer:image]];
                         
-
                         [sself changePropertiesInCurrentUser:searchTerm image:object excludeTerm:title];
                     }
                 }];
@@ -336,17 +342,22 @@ NSString *const COTDParseServiceQueryDidFinishNotification = @"COTDParseServiceQ
 
     PFQuery *query = [PFQuery queryWithClassName:@"COTDUserImage"];
     
+    __block BOOL isNew = NO;
     [query getObjectInBackgroundWithId:[PFUser currentUser].objectId
                                  block:^(PFObject *object, NSError *error) {
                                      PFObject *userImage = object;
+                                     typeof(wself) sself = wself;
+
                                      if (error)
                                      {
                                          userImage = [PFObject objectWithClassName:@"COTDUserImage"];
                                          userImage[@"user"] = [PFUser currentUser];
+                                         userImage[@"savedAt"] = [sself today];
+                                         isNew = YES;
                                      }
                                      if (searchTerm)
                                      {
-                                         userImage[@"searchTerm"] = searchTerm;
+                                         sself.searchTerm = searchTerm;
                                      }
                                      if (image)
                                      {
@@ -354,24 +365,28 @@ NSString *const COTDParseServiceQueryDidFinishNotification = @"COTDParseServiceQ
                                      }
                                      if (excludeTerm)
                                      {
-                                         [userImage addUniqueObject:excludeTerm forKey:@"excludeTerms"];
+                                         [sself.excludeTerms addObject:excludeTerm];
                                      }
                                      [userImage saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                                          if (succeeded)
                                          {
-                                             COTDUserImage *userImage = new COTDUserImage();
-                                             userImage->setImage((std::string)[image.objectId UTF8String]);
-                                             if (object[@"searchTerm"])
+                                             COTDUserImage *userImage = nil;
+                                             if (isNew)
                                              {
-                                                 userImage->setSearchTerm((std::string)[searchTerm UTF8String]);
+                                                 userImage = new COTDUserImage();
+                                                 userImage->setImage((std::string)[image.objectId UTF8String]);
+                                                 __strong typeof(self) sself = wself;
+                                                 [sself.userImages addObject:[NSValue valueWithPointer:userImage]];
+                                                 userImage->setSavedAt((std::string)[[[sself today] formattedDate] UTF8String]);
                                              }
-                                             if (excludeTerm)
+                                             else
                                              {
-                                                 userImage->addTermToExclude(excludeTerm);
+                                                 for (NSValue *userImageObject in self.userImages)
+                                                 {
+                                                     userImage = (COTDUserImage *)[userImageObject pointerValue];
+                                                     break;
+                                                 }
                                              }
-                                             __strong typeof(self) sself = wself;
-
-                                             [sself.userImages addObject:[NSValue valueWithPointer:userImage]];
                                          }
 
                                          [[NSNotificationCenter defaultCenter] postNotificationName:COTDParseServiceQueryDidFinishNotification object:nil];
@@ -381,4 +396,9 @@ NSString *const COTDParseServiceQueryDidFinishNotification = @"COTDParseServiceQ
 
 }
 
+- (NSDate *)today
+{
+    NSDate *today = [[NSDate date] addDays:2];
+    return today;
+}
 @end

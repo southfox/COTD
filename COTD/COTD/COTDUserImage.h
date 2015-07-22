@@ -21,21 +21,15 @@ class COTDUserImage {
     
 protected:
     std::string image;
-    std::string searchTerm;
-    NSArray *excludeTerms;
+    std::string savedAt;
     
 public:
-    
-    COTDUserImage();
 
     const std::string& getImage() const;
     void setImage(const std::string& image);
     
-    const std::string& getSearchTerm() const;
-    void setSearchTerm(const std::string& searchTerm);
-    
-    const NSArray* excludeTermsArray() const;
-    void addTermToExclude(const NSString *term);
+    const std::string& getSavedAt() const;
+    void setSavedAt(const std::string& savedAt);
 };
 
 #endif /* defined(__COTD__COTDUserImage__) */

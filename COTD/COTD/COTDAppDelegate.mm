@@ -9,6 +9,7 @@
 #import "COTDAppDelegate.h"
 #import "COTDParse.h"
 #import "COTDGoogle.h"
+#import "COTDAlert.h"
 
 @interface COTDAppDelegate ()
 
@@ -19,7 +20,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-    
+    __weak typeof(self) wself = self;
+
     [[COTDParse sharedInstance] configureWithLaunchOptions:launchOptions finishBlock:^(BOOL succeeded, NSError *error) {
         if (error)
         {
@@ -29,14 +31,38 @@
         {
             if (![[COTDParse sharedInstance] currentUserImageUrl])
             {
-                [[COTDGoogle sharedInstance] queryTerm:[[COTDParse sharedInstance] currentUserSearchTerm] excludeTerms:[[COTDParse sharedInstance] currentUserExcludeTerms] finishBlock:^(BOOL succeeded, NSString *link, NSString *title, NSError *error) {
-                    [[COTDParse sharedInstance] updateImage:link title:title searchTerm:nil];
-                }];
+                typeof(self) sself = wself;
+
+                [sself queryTerm];
             }
         }
     }];
     return YES;
 }
+
+- (void)queryTerm
+{
+    __weak typeof(self) wself = self;
+    
+    [[COTDGoogle sharedInstance] queryTerm:[[COTDParse sharedInstance] currentUserSearchTerm] excludeTerms:[[COTDParse sharedInstance] currentUserExcludeTerms] finishBlock:^(BOOL succeeded, NSString *link, NSString *title, NSError *error) {
+        if (succeeded)
+        {
+            [[COTDParse sharedInstance] updateImage:link title:title searchTerm:nil];
+        }
+        else
+        {
+            typeof(self) sself = wself;
+            
+            [COTDAlert alertWithFrame:sself.window.frame title:@"Error" message:error.description leftTitle:@"Retry" leftBlock:^{
+                typeof(self) sself = wself;
+                [sself queryTerm];
+            } rightTitle:@"Close" rightBlock:^{
+                exit(0);
+            }];
+        }
+    }];
+}
+
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

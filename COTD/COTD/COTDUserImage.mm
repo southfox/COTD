@@ -8,10 +8,6 @@
 
 #import "COTDUserImage.h"
 
-COTDUserImage::COTDUserImage()
-{
-    this->excludeTerms = [NSMutableArray array];
-}
 
 const std::string &COTDUserImage::getImage() const
 {
@@ -23,26 +19,15 @@ void COTDUserImage::setImage(const std::string &image)
     this->image = image;
 }
 
-const std::string& COTDUserImage::getSearchTerm() const
+const std::string& COTDUserImage::getSavedAt() const
 {
-    return this->searchTerm;
+    return this->savedAt;
 }
 
-void COTDUserImage::setSearchTerm(const std::string& searchTerm)
+void COTDUserImage::setSavedAt(const std::string& savedAt)
 {
-    this->searchTerm = searchTerm;
+    this->savedAt = savedAt;
 }
-
-const NSArray* COTDUserImage::excludeTermsArray() const
-{
-    return this->excludeTerms;
-}
-
-void COTDUserImage::addTermToExclude(const NSString *term)
-{
-    [this->excludeTerms performSelector:@selector(addObject:) withObject:term];
-}
-
 
 
 
