@@ -17,6 +17,7 @@ extern NSString *const COTDParseServiceQueryDidFinishNotification;
 - (void)configureWithLaunchOptions:(NSDictionary *)launchOptions finishBlock:(void (^)(BOOL succeeded, NSError *error))finishBlock;
 
 - (NSString *)currentUserSearchTerm;
+- (void)changeCurrentUserSearchTerm:(NSString *)searchTerm;
 
 - (NSString *)currentUserExcludeTerms;
 

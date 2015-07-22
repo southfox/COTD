@@ -337,6 +337,10 @@ NSString *const COTDParseServiceQueryDidFinishNotification = @"COTDParseServiceQ
 {
     return self.searchTerm;
 }
+- (void)changeCurrentUserSearchTerm:(NSString *)searchTerm;
+{
+    self.searchTerm = searchTerm;
+}
 
 - (NSString *)currentUserExcludeTerms
 {
@@ -426,7 +430,7 @@ NSString *const COTDParseServiceQueryDidFinishNotification = @"COTDParseServiceQ
                                      }
                                      if (searchTerm)
                                      {
-                                         sself.searchTerm = searchTerm;
+                                         [sself changeCurrentUserSearchTerm:searchTerm];
                                      }
                                      if (image)
                                      {

@@ -11,12 +11,14 @@
 #import "UIView+COTD.h"
 #import "COTDParse.h"
 #import "COTDAlert.h"
+#import "COTDGoogle.h"
 
 
 @interface COTDViewController ()
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *gridButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *likeButton;
+@property (nonatomic) NSString *searchTerm;
 
 @end
 
@@ -30,8 +32,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
-    
+
+    UITapGestureRecognizer* tap= [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(refineSearchAction)];
+    [self.imageView addGestureRecognizer:tap];
+    self.imageView.userInteractionEnabled = YES;
+
     [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(handleParseFinishNotification:) name:COTDParseServiceQueryDidFinishNotification object: nil];
 
     [self.view startSpinnerWithString:@"Loading..." tag:1];
@@ -89,6 +94,45 @@
         }
     }];
 }
+
+- (void)refineSearchAction
+{
+    __weak typeof(self) wself = self;
+
+    NSString *searchTerm = [[COTDParse sharedInstance] currentUserSearchTerm];
+    [COTDAlert alertWithFrame:self.view.frame prompt:@"Refine Search" placeholder:@"Add more text" value:searchTerm ?: nil textBlock:^(NSString *text) {
+        typeof(wself) sself = wself;
+        sself.searchTerm = text;
+    } leftTitle:@"Cancel" leftBlock:^{} rightTitle:@"Search" rightBlock:^{
+        typeof(wself) sself = wself;
+        [[COTDParse sharedInstance] changeCurrentUserSearchTerm:sself.searchTerm];
+        [sself queryTerm];
+    }];
+}
+
+- (void)queryTerm
+{
+    __weak typeof(self) wself = self;
+    
+    [[COTDGoogle sharedInstance] queryTerm:[[COTDParse sharedInstance] currentUserSearchTerm] excludeTerms:[[COTDParse sharedInstance] currentUserExcludeTerms] finishBlock:^(BOOL succeeded, NSString *link, NSString *title, NSError *error) {
+        if (succeeded)
+        {
+            [[COTDParse sharedInstance] updateImage:link title:title searchTerm:nil];
+        }
+        else
+        {
+            typeof(self) sself = wself;
+            
+            [COTDAlert alertWithFrame:sself.view.frame title:@"Error" message:error.description leftTitle:@"Retry" leftBlock:^{
+                typeof(self) sself = wself;
+                [sself queryTerm];
+            } rightTitle:@"Close" rightBlock:^{
+                exit(0);
+            }];
+        }
+    }];
+}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
