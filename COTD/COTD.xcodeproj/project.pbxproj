@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		95815FAC1B5F87BB00BCED6D /* COTDMostLikedViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 95815FAB1B5F87BB00BCED6D /* COTDMostLikedViewController.mm */; };
+		95815FAF1B5F88E300BCED6D /* COTDMostLikedCollectionViewCell.mm in Sources */ = {isa = PBXBuildFile; fileRef = 95815FAE1B5F88E300BCED6D /* COTDMostLikedCollectionViewCell.mm */; };
 		959BA2041B5F4F7B00B289AB /* COTDAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 959BA2031B5F4F7B00B289AB /* COTDAlert.m */; };
 		95B0F78D1B5DD5C3000BEE94 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 95B0F78C1B5DD5C3000BEE94 /* main.m */; };
 		95B0F7901B5DD5C3000BEE94 /* COTDAppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 95B0F78F1B5DD5C3000BEE94 /* COTDAppDelegate.mm */; };
@@ -38,6 +40,10 @@
 /* Begin PBXFileReference section */
 		0A26250100B459F6677E7CE1 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		269A886D56DF4157573133BF /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		95815FAA1B5F87BB00BCED6D /* COTDMostLikedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COTDMostLikedViewController.h; sourceTree = "<group>"; };
+		95815FAB1B5F87BB00BCED6D /* COTDMostLikedViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = COTDMostLikedViewController.mm; sourceTree = "<group>"; };
+		95815FAD1B5F88E300BCED6D /* COTDMostLikedCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COTDMostLikedCollectionViewCell.h; sourceTree = "<group>"; };
+		95815FAE1B5F88E300BCED6D /* COTDMostLikedCollectionViewCell.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = COTDMostLikedCollectionViewCell.mm; sourceTree = "<group>"; };
 		959BA2021B5F4F7B00B289AB /* COTDAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COTDAlert.h; sourceTree = "<group>"; };
 		959BA2031B5F4F7B00B289AB /* COTDAlert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COTDAlert.m; sourceTree = "<group>"; };
 		95B0F7871B5DD5C3000BEE94 /* COTD.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = COTD.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -128,6 +134,10 @@
 				95B0F78F1B5DD5C3000BEE94 /* COTDAppDelegate.mm */,
 				95B0F7911B5DD5C3000BEE94 /* COTDViewController.h */,
 				95B0F7921B5DD5C3000BEE94 /* COTDViewController.mm */,
+				95815FAA1B5F87BB00BCED6D /* COTDMostLikedViewController.h */,
+				95815FAB1B5F87BB00BCED6D /* COTDMostLikedViewController.mm */,
+				95815FAD1B5F88E300BCED6D /* COTDMostLikedCollectionViewCell.h */,
+				95815FAE1B5F88E300BCED6D /* COTDMostLikedCollectionViewCell.mm */,
 				95B0F7941B5DD5C3000BEE94 /* Main.storyboard */,
 				95B0F7971B5DD5C3000BEE94 /* Images.xcassets */,
 				95B0F7991B5DD5C3000BEE94 /* LaunchScreen.xib */,
@@ -349,7 +359,9 @@
 				95B0F7C71B5E16BD000BEE94 /* COTDUserImage.mm in Sources */,
 				959BA2041B5F4F7B00B289AB /* COTDAlert.m in Sources */,
 				95B0F7C21B5E113C000BEE94 /* NSError+COTD.m in Sources */,
+				95815FAC1B5F87BB00BCED6D /* COTDMostLikedViewController.mm in Sources */,
 				95B0F7BF1B5E0D6B000BEE94 /* COTDParse.mm in Sources */,
+				95815FAF1B5F88E300BCED6D /* COTDMostLikedCollectionViewCell.mm in Sources */,
 				95B0F7901B5DD5C3000BEE94 /* COTDAppDelegate.mm in Sources */,
 				95B0F7CB1B5E232B000BEE94 /* UIView+COTD.m in Sources */,
 				95B0F78D1B5DD5C3000BEE94 /* main.m in Sources */,

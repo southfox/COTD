@@ -124,12 +124,30 @@ NSString *const COTDParseServiceQueryDidFinishNotification = @"COTDParseServiceQ
     self.isUpdating = YES;
     __weak typeof(self) wself = self;
     
-    [wself queryImages:^(BOOL succeeded, NSError *error) {
+    [wself queryImages:^(NSArray *objects, NSError *error) {
         
-        if (succeeded)
+        if (error)
         {
-         
-            typeof(self) sself = wself;
+            bfinishBlock(NO, error);
+            return;
+        }
+        else
+        {
+            __strong typeof(wself) sself = wself;
+
+            if (objects.count)
+            {
+                sself.images = [NSMutableArray new];
+                COTDImage *image = new COTDImage();
+                for (PFObject *object in objects)
+                {
+                    image->setObjectId((std::string)[object.objectId UTF8String]);
+                    image->setFullUrl((std::string)[object[@"fullUrl"] UTF8String]);
+                    image->setLikes([object[@"likes"] intValue]);
+                    image->setImageTitle((std::string)[object[@"imageTitle"] UTF8String]);
+                    [sself.images addObject:[NSValue valueWithPointer:image]];
+                }
+            }
             
             [sself queryUserImages:^(BOOL succeeded, NSError *error) {
                 if (succeeded)
@@ -140,7 +158,7 @@ NSString *const COTDParseServiceQueryDidFinishNotification = @"COTDParseServiceQ
                     }
 
                     sself.isUpdating = NO;
-                    COTDUserImage *userImage = [self userImage];
+                    COTDUserImage *userImage = [sself userImage];
                     if (userImage)
                     {
                         [[NSNotificationCenter defaultCenter] postNotificationName:COTDParseServiceQueryDidFinishNotification object:nil];
@@ -156,53 +174,17 @@ NSString *const COTDParseServiceQueryDidFinishNotification = @"COTDParseServiceQ
                 }
             }];
         }
-        else
-        {
-            bfinishBlock(NO, error);
-        }
-        
-    }];
+    } limit:1000];
 }
 
-- (void)queryImages:(void (^)(BOOL succeeded, NSError *error))finishBlock;
+- (void)queryImages:(void (^)(NSArray *objects, NSError *error))finishBlock limit:(int)limit
 {
-    __block void(^bfinishBlock)(BOOL succeeded, NSError *error) = finishBlock;
-
-    __weak typeof(self) wself = self;
-
     PFQuery *query = [PFQuery queryWithClassName:@"COTDImage"];
+    query.limit = limit;
+    [query orderByAscending:@"likes"];
     [query setCachePolicy:kPFCachePolicyNetworkOnly];
     
-    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        
-        if (error)
-        {
-            bfinishBlock(NO, error);
-            return;
-        }
-        else
-        {
-            if (objects.count)
-            {
-                __strong typeof(self) sself = wself;
-                sself.images = [NSMutableArray new];
-                COTDImage *image = new COTDImage();
-                for (PFObject *object in objects)
-                {
-                    image->setObjectId((std::string)[object.objectId UTF8String]);
-                    image->setFullUrl((std::string)[object[@"fullUrl"] UTF8String]);
-                    image->setLikes([object[@"likes"] intValue]);
-                    image->setImageTitle((std::string)[object[@"imageTitle"] UTF8String]);
-                    [sself.images addObject:[NSValue valueWithPointer:image]];
-                }
-                bfinishBlock(YES, nil);
-            }
-            else
-            {
-                bfinishBlock(NO, [NSError errorWithMessage:@"cannot get COTDImage"]);
-            }
-        }
-    }];
+    [query findObjectsInBackgroundWithBlock:finishBlock];
 }
 
 
@@ -487,5 +469,10 @@ NSString *const COTDParseServiceQueryDidFinishNotification = @"COTDParseServiceQ
 {
     NSDate *today = [[NSDate date] addDays:2];
     return today;
+}
+
+- (void)topTenImages:(void (^)(NSArray *objects, NSError *error))finishBlock
+{
+    [self queryImages:finishBlock limit:10];
 }
 @end

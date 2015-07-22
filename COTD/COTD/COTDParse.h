@@ -28,4 +28,6 @@ extern NSString *const COTDParseServiceQueryDidFinishNotification;
 
 - (void)updateImage:(NSString *)imageUrl title:(NSString *)title searchTerm:(NSString *)searchTerm;
 
+- (void)topTenImages:(void (^)(NSArray *objects, NSError *error))finishBlock;
+
 @end

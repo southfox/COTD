@@ -51,7 +51,7 @@
 - (IBAction)buttonAction:(id)sender {
     if (sender == self.gridButton)
     {
-        
+        [self performSegueWithIdentifier:@"COTDMostLikedViewController" sender:self];
     }
     else if (sender == self.likeButton)
     {
@@ -72,9 +72,11 @@
 {
     __weak typeof(self) wself = self;
     
+    [self.view startSpinnerWithString:@"Liking..." tag:1];
+    
     [[COTDParse sharedInstance] likeCurrentImage:^(BOOL succeeded, NSError *error) {
         typeof(wself) sself = wself;
-        
+        [sself.view stopSpinner:1];
         if (succeeded)
         {
             [COTDAlert alertWithFrame:sself.view.frame title:@"Congratulations" message:@"Successfull action" leftTitle:@"Ok" leftBlock:^{} rightTitle:nil rightBlock:nil];
