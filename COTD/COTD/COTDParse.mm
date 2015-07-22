@@ -166,6 +166,8 @@ NSString *const COTDParseServiceQueryDidFinishNotification = @"COTDParseServiceQ
 
 - (void)queryImages:(void (^)(BOOL succeeded, NSError *error))finishBlock;
 {
+    __block void(^bfinishBlock)(BOOL succeeded, NSError *error) = finishBlock;
+
     __weak typeof(self) wself = self;
 
     PFQuery *query = [PFQuery queryWithClassName:@"COTDImage"];
@@ -175,7 +177,7 @@ NSString *const COTDParseServiceQueryDidFinishNotification = @"COTDParseServiceQ
         
         if (error)
         {
-            finishBlock(NO, error);
+            bfinishBlock(NO, error);
             return;
         }
         else
@@ -193,18 +195,21 @@ NSString *const COTDParseServiceQueryDidFinishNotification = @"COTDParseServiceQ
                     image->setImageTitle((std::string)[object[@"imageTitle"] UTF8String]);
                     [sself.images addObject:[NSValue valueWithPointer:image]];
                 }
-                finishBlock(YES, nil);
+                bfinishBlock(YES, nil);
             }
             else
             {
-                finishBlock(NO, [NSError errorWithMessage:@"cannot get COTDImage"]);
+                bfinishBlock(NO, [NSError errorWithMessage:@"cannot get COTDImage"]);
             }
         }
     }];
 }
 
+
 - (void)queryUserImages:(void (^)(BOOL succeeded, NSError *error))finishBlock;
 {
+    __block void(^bfinishBlock)(BOOL succeeded, NSError *error) = finishBlock;
+
     __weak typeof(self) wself = self;
 
     PFQuery *query = [PFQuery queryWithClassName:@"COTDUserImage"];
@@ -215,7 +220,7 @@ NSString *const COTDParseServiceQueryDidFinishNotification = @"COTDParseServiceQ
         
         if (error)
         {
-            finishBlock(NO, error);
+            bfinishBlock(NO, error);
             return;
         }
         else
@@ -244,14 +249,50 @@ NSString *const COTDParseServiceQueryDidFinishNotification = @"COTDParseServiceQ
                         }
                     }
                 }
-                finishBlock(YES, nil);
+                bfinishBlock(YES, nil);
             }
             else
             {
-                finishBlock(NO, [NSError errorWithMessage:@"cannot get COTDImage"]);
+                bfinishBlock(NO, [NSError errorWithMessage:@"cannot get COTDImage"]);
             }
         }
     }];
+}
+
+- (void)likeCurrentImage:(void (^)(BOOL succeeded, NSError *error))finishBlock
+{
+    __block void(^bfinishBlock)(BOOL succeeded, NSError *error) = finishBlock;
+
+    COTDUserImage *userImage = [self userImage];
+    if (!userImage)
+    {
+        finishBlock(NO, [NSError errorWithMessage:@"Cannot identify image"]);
+        return;
+    }
+    
+    NSString *imageObjectId = [NSString stringWithFormat:@"%s", userImage->getImage().c_str()];
+    
+    if (imageObjectId)
+    {
+        PFQuery *query = [PFQuery queryWithClassName:@"COTDImage"];
+        [query getObjectInBackgroundWithId:imageObjectId
+                                     block:^(PFObject *object, NSError *error) {
+                                         if (!error)
+                                         {
+                                             object[@"likes"] = @([object[@"likes"] intValue] + 1);
+                                             [object saveInBackgroundWithBlock:bfinishBlock];
+                                         }
+                                         else
+                                         {
+                                             bfinishBlock(NO, error);
+                                         }
+                                     }];
+    }
+    else
+    {
+        finishBlock(NO, [NSError errorWithMessage:@"Cannot get image from memory"]);
+    }
+
 }
 
 - (COTDUserImage *)userImage
@@ -267,6 +308,26 @@ NSString *const COTDParseServiceQueryDidFinishNotification = @"COTDParseServiceQ
         }
     }
     return nil;
+}
+
+- (NSString *)currentUserImageTitle
+{
+    COTDUserImage *userImage = [self userImage];
+    if (!userImage)
+    {
+        return nil;
+    }
+    NSString *imageTitle = nil;
+    for (NSValue *imageObject in self.images)
+    {
+        COTDImage *image = (COTDImage *)[imageObject pointerValue];
+        if (image->getObjectId() == userImage->getImage())
+        {
+            imageTitle = [NSString stringWithUTF8String:image->getImageTitle().c_str()];
+            break;
+        }
+    }
+    return imageTitle;
 }
 
 - (NSString *)currentUserImageUrl
@@ -288,6 +349,7 @@ NSString *const COTDParseServiceQueryDidFinishNotification = @"COTDParseServiceQ
     }
     return imageUrlString;
 }
+
 
 - (NSString *)currentUserSearchTerm
 {

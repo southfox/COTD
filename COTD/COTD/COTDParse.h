@@ -20,7 +20,11 @@ extern NSString *const COTDParseServiceQueryDidFinishNotification;
 
 - (NSString *)currentUserExcludeTerms;
 
+- (NSString *)currentUserImageTitle;
+
 - (NSString *)currentUserImageUrl;
+
+- (void)likeCurrentImage:(void (^)(BOOL succeeded, NSError *error))finishBlock;
 
 - (void)updateImage:(NSString *)imageUrl title:(NSString *)title searchTerm:(NSString *)searchTerm;
 

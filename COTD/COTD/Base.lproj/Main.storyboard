@@ -26,19 +26,23 @@
                             <constraint firstItem="DXX-sQ-EGX" firstAttribute="width" secondItem="kh9-bI-dsS" secondAttribute="width" id="pba-9Z-tHX"/>
                         </constraints>
                     </view>
+                    <toolbarItems/>
                     <navigationItem key="navigationItem" title="Capybara" id="8aM-56-50Z">
-                        <barButtonItem key="rightBarButtonItem" style="plain" id="6d4-DQ-wc0">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="lar-jk-xa6">
-                                <rect key="frame" x="524" y="7" width="50" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="[ Like ]">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                            </button>
+                        <barButtonItem key="leftBarButtonItem" title="[ grid ]" id="0NU-lM-ilJ">
+                            <connections>
+                                <action selector="buttonAction:" destination="vXZ-lx-hvc" id="2eP-B9-Rbz"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="[ like ]" id="eqg-YJ-ZCN">
+                            <connections>
+                                <action selector="buttonAction:" destination="vXZ-lx-hvc" id="BmI-9I-H8e"/>
+                            </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="gridButton" destination="0NU-lM-ilJ" id="7ie-81-CKP"/>
                         <outlet property="imageView" destination="DXX-sQ-EGX" id="2jI-Hh-1BI"/>
+                        <outlet property="likeButton" destination="eqg-YJ-ZCN" id="dhr-27-qg2"/>
                         <outlet property="view" destination="kh9-bI-dsS" id="OJI-yb-5Eq"/>
                     </connections>
                 </viewController>

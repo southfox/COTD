@@ -23,16 +23,17 @@
     __weak typeof(self) wself = self;
 
     [[COTDParse sharedInstance] configureWithLaunchOptions:launchOptions finishBlock:^(BOOL succeeded, NSError *error) {
+        typeof(self) sself = wself;
         if (error)
         {
-            NSLog(@"error = %@", error);
+            [COTDAlert alertWithFrame:sself.window.frame title:@"Error" message:error.description leftTitle:nil leftBlock:nil rightTitle:@"Close" rightBlock:^{
+                exit(0);
+            }];
         }
         else
         {
             if (![[COTDParse sharedInstance] currentUserImageUrl])
             {
-                typeof(self) sself = wself;
-
                 [sself queryTerm];
             }
         }
