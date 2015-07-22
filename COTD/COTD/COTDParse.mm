@@ -14,7 +14,6 @@
 #import "NSDate+COTD.h"
 
 
-
 NSString *const COTDParseServiceQueryDidFinishNotification = @"COTDParseServiceQueryDidFinishNotification";
 
 @interface COTDParse()
@@ -86,9 +85,16 @@ NSString *const COTDParseServiceQueryDidFinishNotification = @"COTDParseServiceQ
         [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
         
         [sself querys:^(BOOL succeeded, NSError *error) {
-            typeof(self) sself = wself;
-            sself.isUpdating = NO;
-            bfinishBlock(YES, nil);
+            if (succeeded)
+            {
+                typeof(self) sself = wself;
+                sself.isUpdating = NO;
+                bfinishBlock(YES, nil);
+            }
+            else
+            {
+                bfinishBlock(NO, error);
+            }
         }];
     };
     
@@ -120,21 +126,40 @@ NSString *const COTDParseServiceQueryDidFinishNotification = @"COTDParseServiceQ
     
     [wself queryImages:^(BOOL succeeded, NSError *error) {
         
-        typeof(self) sself = wself;
-        
-        [sself queryUserImages:^(BOOL succeeded, NSError *error) {
-            if (bfinishBlock)
-            {
-                bfinishBlock(succeeded, error);
-            }
+        if (succeeded)
+        {
+         
+            typeof(self) sself = wself;
+            
+            [sself queryUserImages:^(BOOL succeeded, NSError *error) {
+                if (succeeded)
+                {
+                    if (bfinishBlock)
+                    {
+                        bfinishBlock(succeeded, error);
+                    }
 
-            sself.isUpdating = NO;
-            COTDUserImage *userImage = [self userImage];
-            if (userImage)
-            {
-                [[NSNotificationCenter defaultCenter] postNotificationName:COTDParseServiceQueryDidFinishNotification object:nil];
-            }
-        }];
+                    sself.isUpdating = NO;
+                    COTDUserImage *userImage = [self userImage];
+                    if (userImage)
+                    {
+                        [[NSNotificationCenter defaultCenter] postNotificationName:COTDParseServiceQueryDidFinishNotification object:nil];
+                    }
+                    else
+                    {
+                        bfinishBlock(NO, [NSError errorWithMessage:@"Not getting any image"]);
+                    }
+                }
+                else
+                {
+                    bfinishBlock(NO, error);
+                }
+            }];
+        }
+        else
+        {
+            bfinishBlock(NO, error);
+        }
         
     }];
 }
