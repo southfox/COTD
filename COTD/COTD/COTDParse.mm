@@ -152,11 +152,6 @@ NSString *const COTDParseServiceQueryDidFinishNotification = @"COTDParseServiceQ
             [sself queryUserImages:^(BOOL succeeded, NSError *error) {
                 if (succeeded)
                 {
-                    if (bfinishBlock)
-                    {
-                        bfinishBlock(succeeded, error);
-                    }
-
                     sself.isUpdating = NO;
                     COTDUserImage *userImage = [sself userImage];
                     if (userImage)
@@ -231,12 +226,8 @@ NSString *const COTDParseServiceQueryDidFinishNotification = @"COTDParseServiceQ
                         }
                     }
                 }
-                bfinishBlock(YES, nil);
             }
-            else
-            {
-                bfinishBlock(NO, [NSError errorWithMessage:@"cannot get COTDImage"]);
-            }
+            bfinishBlock(YES, nil);
         }
     }];
 }
@@ -352,27 +343,49 @@ NSString *const COTDParseServiceQueryDidFinishNotification = @"COTDParseServiceQ
     return nil;
 }
 
-- (void)updateImage:(NSString *)imageUrl title:(NSString *)title searchTerm:(NSString *)searchTerm
+- (void)updateImage:(NSString *)imageUrl title:(NSString *)title searchTerm:(NSString *)searchTerm finishBlock:(void (^)(BOOL succeeded, COTDImage* image, NSError *error))finishBlock
 {
+    
+    __block void(^bfinishBlock)(BOOL succeeded, COTDImage* image, NSError *error) = finishBlock;
+
     __weak typeof(self) wself = self;
 
     std::string imageUrlString = [imageUrl UTF8String];
     NSString *imageObjectId = nil;
+    __block COTDImage *image = nil;
     for (NSValue *imageObject in self.images)
     {
-        COTDImage *image = (COTDImage *)[imageObject pointerValue];
+        image = (COTDImage *)[imageObject pointerValue];
         if (image->getFullUrl() == imageUrlString)
         {
             imageObjectId = [NSString stringWithUTF8String:image->getObjectId().c_str()];
             break;
         }
     }
-    if (imageObjectId)
+    if (image && imageObjectId)
     {
         PFQuery *query = [PFQuery queryWithClassName:@"COTDImage"];
         [query getObjectInBackgroundWithId:imageObjectId
                                      block:^(PFObject *object, NSError *error) {
-                                         [self changePropertiesInCurrentUser:searchTerm image:object excludeTerm:title];
+                                         if (object)
+                                         {
+                                             __strong typeof(self) sself = wself;
+                                             if (bfinishBlock)
+                                             {
+                                                 bfinishBlock(YES, image, nil);
+                                             }
+                                             else
+                                             {
+                                                 [sself changePropertiesInCurrentUser:searchTerm image:object excludeTerm:title];
+                                             }
+                                         }
+                                         else
+                                         {
+                                             if (bfinishBlock)
+                                             {
+                                                 bfinishBlock(NO, nil, error);
+                                             }
+                                         }
                                      }];
 
     }
@@ -399,8 +412,21 @@ NSString *const COTDParseServiceQueryDidFinishNotification = @"COTDParseServiceQ
                         __strong typeof(self) sself = wself;
                         
                         [sself.images addObject:[NSValue valueWithPointer:image]];
-                        
-                        [sself changePropertiesInCurrentUser:searchTerm image:object excludeTerm:title];
+                        if (bfinishBlock)
+                        {
+                            bfinishBlock(YES, image, nil);
+                        }
+                        else
+                        {
+                            [sself changePropertiesInCurrentUser:searchTerm image:object excludeTerm:title];
+                        }
+                    }
+                    else
+                    {
+                        if (bfinishBlock)
+                        {
+                            bfinishBlock(NO, nil, error);
+                        }
                     }
                 }];
             }
@@ -471,7 +497,7 @@ NSString *const COTDParseServiceQueryDidFinishNotification = @"COTDParseServiceQ
 
 - (NSDate *)today
 {
-    NSDate *today = [[NSDate date] addDays:2];
+    NSDate *today = [[NSDate date] addDays:0];
     return today;
 }
 

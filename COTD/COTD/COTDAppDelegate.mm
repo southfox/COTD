@@ -46,14 +46,26 @@
     __weak typeof(self) wself = self;
     
     [[COTDGoogle sharedInstance] queryTerm:[[COTDParse sharedInstance] currentUserSearchTerm] excludeTerms:[[COTDParse sharedInstance] currentUserExcludeTerms] finishBlock:^(BOOL succeeded, NSString *link, NSString *title, NSError *error) {
+        typeof(self) sself = wself;
+
         if (succeeded)
         {
-            [[COTDParse sharedInstance] updateImage:link title:title searchTerm:nil];
+            if (!link)
+            {
+                [COTDAlert alertWithFrame:sself.window.frame title:@"Info" message:@"No results" leftTitle:@"Cancel" leftBlock:^{
+                    
+                } rightTitle:@"Retry" rightBlock:^{
+                    typeof(self) sself = wself;
+                    [sself queryTerm];
+                }];
+            }
+            else
+            {
+                [[COTDParse sharedInstance] updateImage:link title:title searchTerm:nil finishBlock:nil];
+            }
         }
         else
         {
-            typeof(self) sself = wself;
-            
             [COTDAlert alertWithFrame:sself.window.frame title:@"Error" message:error.description leftTitle:@"Retry" leftBlock:^{
                 typeof(self) sself = wself;
                 [sself queryTerm];

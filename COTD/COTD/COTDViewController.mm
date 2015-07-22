@@ -12,6 +12,7 @@
 #import "COTDParse.h"
 #import "COTDAlert.h"
 #import "COTDGoogle.h"
+#import "COTDImage.h"
 
 
 @interface COTDViewController ()
@@ -19,7 +20,7 @@
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *gridButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *likeButton;
 @property (nonatomic) NSString *searchTerm;
-
+@property (nonatomic) NSArray *topTenArray;
 @end
 
 @implementation COTDViewController
@@ -32,6 +33,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.gridButton.enabled = NO;
+    self.likeButton.enabled = NO;
 
     UITapGestureRecognizer* tap= [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(refineSearchAction)];
     [self.imageView addGestureRecognizer:tap];
@@ -39,8 +43,16 @@
 
     [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(handleParseFinishNotification:) name:COTDParseServiceQueryDidFinishNotification object: nil];
 
-    [self.view startSpinnerWithString:@"Loading..." tag:1];
+    __weak typeof(self) wself = self;
     
+    [self.view startSpinnerWithString:@"Loading..." tag:1];
+    [[COTDParse sharedInstance] topTenImages:^(NSArray *objects, NSError *error) {
+        typeof(wself) sself = wself;
+        sself.topTenArray = objects;
+        sself.gridButton.enabled = (sself.topTenArray.count);
+    }];
+    
+
 }
 
 - (void)handleParseFinishNotification:(NSNotification *)notification
@@ -48,6 +60,7 @@
     [self.view stopSpinner:1];
     
     NSString *imageUrl = [[COTDParse sharedInstance] currentUserImageUrl];
+    self.likeButton.enabled = (imageUrl);
     self.title = [[COTDParse sharedInstance] currentUserSearchTerm] ? : @"Capybara";
     [self.imageView setImageWithURL:[NSURL URLWithString:imageUrl]];
 }
@@ -103,6 +116,9 @@
     [COTDAlert alertWithFrame:self.view.frame prompt:@"Refine Search" placeholder:@"Add more text" value:searchTerm ?: nil textBlock:^(NSString *text) {
         typeof(wself) sself = wself;
         sself.searchTerm = text;
+        [[COTDParse sharedInstance] changeCurrentUserSearchTerm:sself.searchTerm];
+        [sself queryTerm];
+
     } leftTitle:@"Cancel" leftBlock:^{} rightTitle:@"Search" rightBlock:^{
         typeof(wself) sself = wself;
         [[COTDParse sharedInstance] changeCurrentUserSearchTerm:sself.searchTerm];
@@ -114,20 +130,71 @@
 {
     __weak typeof(self) wself = self;
     
+    [self.view startSpinnerWithString:[NSString stringWithFormat:@"Searching [%@]...", self.searchTerm] tag:1];
+
     [[COTDGoogle sharedInstance] queryTerm:[[COTDParse sharedInstance] currentUserSearchTerm] excludeTerms:[[COTDParse sharedInstance] currentUserExcludeTerms] finishBlock:^(BOOL succeeded, NSString *link, NSString *title, NSError *error) {
+        typeof(self) sself = wself;
+
+        [sself.view stopSpinner:1];
+        
         if (succeeded)
         {
-            [[COTDParse sharedInstance] updateImage:link title:title searchTerm:nil];
+            if (!link)
+            {
+                [COTDAlert alertWithFrame:sself.view.frame title:@"Info" message:@"No results" leftTitle:@"Cancel" leftBlock:^{
+                    
+                } rightTitle:@"Retry" rightBlock:^{
+                    typeof(self) sself = wself;
+                    [sself queryTerm];
+                }];
+            }
+            else
+            {
+                [[COTDParse sharedInstance] updateImage:link title:title searchTerm:wself.searchTerm finishBlock:^(BOOL succeeded, COTDImage *image, NSError *error) {
+                    typeof(self) sself = wself;
+
+                    if (succeeded)
+                    {
+                        if (!image)
+                        {
+                            [COTDAlert alertWithFrame:sself.view.frame title:@"Info" message:@"Cannot open image" leftTitle:@"Cancel" leftBlock:^{
+                                
+                            } rightTitle:@"Retry" rightBlock:^{
+                                typeof(self) sself = wself;
+                                [sself queryTerm];
+                            }];
+                        }
+                        else
+                        {
+                            NSString *imageUrl = [NSString stringWithUTF8String:image->getFullUrl().c_str()];
+                            sself.likeButton.enabled = (imageUrl.length);
+                            sself.title = sself.searchTerm ? : @"Capybara";
+                            [sself.imageView setImageWithURL:[NSURL URLWithString:imageUrl]];
+                        }
+                    }
+                    else
+                    {
+                        [COTDAlert alertWithFrame:sself.view.frame title:@"Error" message:error
+                         .description leftTitle:@"Cancel" leftBlock:^{
+                            
+                        } rightTitle:@"Retry" rightBlock:^{
+                            typeof(self) sself = wself;
+                            [sself queryTerm];
+                        }];
+
+                    }
+
+                }];
+            }
         }
         else
         {
-            typeof(self) sself = wself;
             
-            [COTDAlert alertWithFrame:sself.view.frame title:@"Error" message:error.description leftTitle:@"Retry" leftBlock:^{
+            [COTDAlert alertWithFrame:sself.view.frame title:@"Error" message:error.description leftTitle:@"Cancel" leftBlock:^{
+                
+            } rightTitle:@"Retry" rightBlock:^{
                 typeof(self) sself = wself;
                 [sself queryTerm];
-            } rightTitle:@"Close" rightBlock:^{
-                exit(0);
             }];
         }
     }];

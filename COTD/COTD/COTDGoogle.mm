@@ -51,9 +51,9 @@
     
     NSString *urlString = URL;
     
-    if (term)
+    if (term.length)
     {
-        NSString *searchTerm = [term stringByAddingPercentEscapesUsingEncoding:NSStringEncodingConversionExternalRepresentation];
+        NSString *searchTerm = [[NSString stringWithFormat:@" %@", term]  stringByAddingPercentEscapesUsingEncoding:NSStringEncodingConversionExternalRepresentation];
         urlString = [urlString stringByAppendingFormat:@"%@", searchTerm];
     }
     

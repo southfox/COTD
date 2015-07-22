@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+class COTDImage;
 
 extern NSString *const COTDParseServiceQueryDidFinishNotification;
 
@@ -27,7 +28,7 @@ extern NSString *const COTDParseServiceQueryDidFinishNotification;
 
 - (void)likeCurrentImage:(void (^)(BOOL succeeded, NSError *error))finishBlock;
 
-- (void)updateImage:(NSString *)imageUrl title:(NSString *)title searchTerm:(NSString *)searchTerm;
+- (void)updateImage:(NSString *)imageUrl title:(NSString *)title searchTerm:(NSString *)searchTerm finishBlock:(void (^)(BOOL succeeded, COTDImage* image, NSError *error))finishBlock;
 
 - (void)topTenImages:(void (^)(NSArray *objects, NSError *error))finishBlock;
 
