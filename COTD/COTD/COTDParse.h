@@ -16,8 +16,12 @@ extern NSString *const COTDParseServiceQueryDidFinishNotification;
 
 - (void)configureWithLaunchOptions:(NSDictionary *)launchOptions finishBlock:(void (^)(BOOL succeeded, NSError *error))finishBlock;
 
+- (NSString *)currentUserSearchTerm;
+
+- (NSString *)currentUserExcludeTerms;
+
 - (NSString *)currentUserImageUrl;
 
-- (void)changeUserImageUrl:(NSString *)imageUrl;
+- (void)updateImage:(NSString *)imageUrl title:(NSString *)title searchTerm:(NSString *)searchTerm;
 
 @end

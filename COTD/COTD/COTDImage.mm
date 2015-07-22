@@ -28,6 +28,16 @@ void COTDImage::setFullUrl(const std::string &fullUrl)
     this->fullUrl = fullUrl;
 }
 
+const std::string& COTDImage::getImageTitle() const
+{
+    return this->imageTitle;
+}
+
+void COTDImage::setImageTitle(const std::string &imageTitle)
+{
+    this->imageTitle = imageTitle;
+}
+
 const int COTDImage::getLikes() const
 {
     return this->likes;

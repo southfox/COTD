@@ -16,6 +16,7 @@ class COTDImage {
 private:
     std::string objectId;
     std::string fullUrl;
+    std::string imageTitle;
     int likes;
     
 public:
@@ -25,6 +26,9 @@ public:
 
     const std::string& getFullUrl() const;
     void setFullUrl(const std::string& fullUrl);
+    
+    const std::string& getImageTitle() const;
+    void setImageTitle(const std::string& imageTitle);
 
     const int getLikes() const;
     void setLikes(const int likes);

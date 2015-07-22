@@ -38,6 +38,8 @@ Double tap de screen: shows the 10 most-liked images in the list
 	user: javier.fuchs@gmail.com (database COTD)
 2. create a empty project with cocoa pods libraries that includes: google search engine and parse library (use the api key here)
 	Using json approach https://www.googleapis.com/customsearch/v1?key=AIzaSyADOPSjmHQYFFf9ZnWTqVQ3kPRwr5ND6l8&cx=003054679763599795063:tka3twkxrbw&q=capybara
+	Another example: https://www.googleapis.com/customsearch/v1?key=AIzaSyADOPSjmHQYFFf9ZnWTqVQ3kPRwr5ND6l8&cx=003054679763599795063:tka3twkxrbw&q=capybara&searchType=image&safe=high&num=1&start=100&fields=items(link,title)&excludeTerms=%22Capybara%20on%20Pinterest%20|%20Guinea%20Pigs,%20Book%20Projects%20and%20Dachshund%22%20%22Capybara%20in%20Japan%20Take%20Baths,%20Think%20They%27re%20People%20-%20Tofugu%22%20%22Pets%20on%20Pinterest%20|%20Giant%20Dogs,%20Stuffed%20Animals%20and%20Giant%20Stuffed%20...%22%20%22Image%20-%20Capybara-02.jpg%20-%20Cookie%20Clicker%20Wiki%22%20%22File:Capybara%20portrait.jpg%20-%20Wikimedia%20Commons%22%20%22Tuff%27n,%20The%20Cutest%20Baby%20Capybara%20in%20The%20World.%20Part%20One%20...%22%20%22Capybara%20photo%20-%20Hydrochoerus%20hydrochaeris%20-%20G42006%20|%20ARKive%22%20%22Capybara%20on%20Pinterest%20|%20Guinea%20Pigs,%20Book%20Projects%20and%20Dachshund%22
+
 	cocoa pods library does not exist anymore for iOS
 3. create the 2 entities for image_likes: COTDImage and user_image: COTDUserImage
 4. using the UI designer in Xcode create the single view that will show the picture of the capybara

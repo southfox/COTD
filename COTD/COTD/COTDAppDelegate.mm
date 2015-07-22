@@ -29,8 +29,8 @@
         {
             if (![[COTDParse sharedInstance] currentUserImageUrl])
             {
-                [[COTDGoogle sharedInstance] queryTerm:@"capybara" finishBlock:^(BOOL succeeded, NSString *imageUrl, NSError *error) {
-                    [[COTDParse sharedInstance] changeUserImageUrl:imageUrl];
+                [[COTDGoogle sharedInstance] queryTerm:[[COTDParse sharedInstance] currentUserSearchTerm] excludeTerms:[[COTDParse sharedInstance] currentUserExcludeTerms] finishBlock:^(BOOL succeeded, NSString *link, NSString *title, NSError *error) {
+                    [[COTDParse sharedInstance] updateImage:link title:title searchTerm:nil];
                 }];
             }
         }
