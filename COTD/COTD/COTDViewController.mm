@@ -14,6 +14,7 @@
 #import "COTDGoogle.h"
 #import "COTDImage.h"
 
+#define COTD @"Capybara of the Day"
 
 @interface COTDViewController ()
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
@@ -59,7 +60,7 @@
 {
     NSString *imageUrl = [[COTDParse sharedInstance] currentUserImageUrl];
     self.likeButton.enabled = (imageUrl);
-    self.title = [[COTDParse sharedInstance] currentUserSearchTerm] ? : @"Capybara";
+    self.title = [[COTDParse sharedInstance] currentUserSearchTerm] ? : COTD;
     [self.imageView setImageWithURL:[NSURL URLWithString:imageUrl]];
     
     __weak typeof(self) wself = self;
@@ -176,7 +177,7 @@
                             {
                                 NSString *imageUrl = [NSString stringWithUTF8String:image->getFullUrl().c_str()];
                                 sself.likeButton.enabled = (imageUrl.length);
-                                sself.title = sself.searchTerm ? : @"Capybara";
+                                sself.title = sself.searchTerm ? : COTD;
                                 [sself.imageView setImageWithURL:[NSURL URLWithString:imageUrl]];
                             }
                         }

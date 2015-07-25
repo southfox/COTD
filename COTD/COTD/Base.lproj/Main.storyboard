@@ -5,7 +5,7 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--Capybara-->
+        <!--Capybara of the Day-->
         <scene sceneID="ufC-wZ-h7g">
             <objects>
                 <viewController id="vXZ-lx-hvc" customClass="COTDViewController" sceneMemberID="viewController">
@@ -28,7 +28,7 @@
                         </constraints>
                     </view>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" title="Capybara" id="8aM-56-50Z">
+                    <navigationItem key="navigationItem" title="Capybara of the Day" id="8aM-56-50Z">
                         <barButtonItem key="leftBarButtonItem" title="[ grid ]" id="0NU-lM-ilJ">
                             <connections>
                                 <action selector="buttonAction:" destination="vXZ-lx-hvc" id="2eP-B9-Rbz"/>
