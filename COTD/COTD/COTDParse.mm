@@ -520,7 +520,7 @@ NSString *const COTDParseServiceQueryDidFinishNotification = @"COTDParseServiceQ
 
 - (NSDate *)today
 {
-    NSDate *today = [[NSDate date] addDays:13];
+    NSDate *today = [[NSDate date] addDays:0];
     return today;
 }
 
