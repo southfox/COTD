@@ -28,6 +28,16 @@ void COTDImage::setFullUrl(const std::string &fullUrl)
     this->fullUrl = fullUrl;
 }
 
+const std::string& COTDImage::getThumbnailUrl() const
+{
+    return this->thumbnailUrl;
+}
+
+void COTDImage::setThumbnailUrl(const std::string &thumbnailUrl)
+{
+    this->thumbnailUrl = thumbnailUrl;
+}
+
 const std::string& COTDImage::getImageTitle() const
 {
     return this->imageTitle;

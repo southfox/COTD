@@ -45,12 +45,28 @@
 {
     __weak typeof(self) wself = self;
     
-    [[COTDGoogle sharedInstance] queryTerm:[[COTDParse sharedInstance] currentUserSearchTerm] excludeTerms:[[COTDParse sharedInstance] currentUserExcludeTerms] finishBlock:^(BOOL succeeded, NSString *link, NSString *title, NSError *error) {
+    [[COTDGoogle sharedInstance] queryTerm:[[COTDParse sharedInstance] currentUserSearchTerm] start:[[COTDParse sharedInstance] currentStart] finishBlock:^(BOOL succeeded, NSString *link, NSString *thumbnailLink, NSString *title, NSError *error) {
         typeof(self) sself = wself;
 
         if (succeeded)
         {
-            if (!link)
+            if (link)
+            {
+                if ([[COTDParse sharedInstance] isLinkRepeated:link])
+                {
+                    [COTDAlert alertWithFrame:sself.window.frame title:@"Warning" message:@"Result repeated. Random failed" leftTitle:@"Cancel" leftBlock:^{
+                        
+                    } rightTitle:@"Retry" rightBlock:^{
+                        typeof(self) sself = wself;
+                        [sself queryTerm];
+                    }];
+                }
+                else
+                {
+                    [[COTDParse sharedInstance] updateImage:link thumbnailUrl:thumbnailLink title:title searchTerm:nil finishBlock:nil];
+                }
+            }
+            else
             {
                 [COTDAlert alertWithFrame:sself.window.frame title:@"Info" message:@"No results" leftTitle:@"Cancel" leftBlock:^{
                     
@@ -58,10 +74,6 @@
                     typeof(self) sself = wself;
                     [sself queryTerm];
                 }];
-            }
-            else
-            {
-                [[COTDParse sharedInstance] updateImage:link title:title searchTerm:nil finishBlock:nil];
             }
         }
         else

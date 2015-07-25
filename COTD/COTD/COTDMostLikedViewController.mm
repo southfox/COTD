@@ -63,7 +63,7 @@
     COTDMostLikedCollectionViewCell *cell = (COTDMostLikedCollectionViewCell *) [collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([COTDMostLikedCollectionViewCell class]) forIndexPath:indexPath];
     
     PFObject *image = self.topTenArray[indexPath.row];
-    [cell configureWithImage:image[@"fullUrl"]];
+    [cell configureWithImage:image[@"thumbnailUrl"]];
     
     return cell;
 }

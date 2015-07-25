@@ -39,28 +39,23 @@
     return self;
 }
 
-//#define URL @"https://www.googleapis.com/customsearch/v1?key=AIzaSyADOPSjmHQYFFf9ZnWTqVQ3kPRwr5ND6l8&cx=003054679763599795063:tka3twkxrbw&searchType=image&items(link,title)&start=1&num=1&q=capybara"
-//#define URL @"https://www.googleapis.com/customsearch/v1?key=AIzaSyDipywri5f6D__qqcCgvbBzP9uF5xbP9b0&cx=003054679763599795063:tka3twkxrbw&searchType=image&items(link,title)&start=1&num=1&q=capybara"
-//#define URL @"https://www.googleapis.com/customsearch/v1?key=AIzaSyCv-rIYBwljnGmgJAxMIh8wBaXpqT6U-T0&cx=003054679763599795063:tka3twkxrbw&searchType=image&items(link,title)&start=1&num=1&q=capybara"
-#define URL @"https://www.googleapis.com/customsearch/v1?key=AIzaSyDhZSxw5rAjmGLHGBJH5ouHDWnMg42LW4g&cx=003054679763599795063:tka3twkxrbw&searchType=image&items(link,title)&start=1&num=1&q=capybara"
+//#define URLFORMAT @"https://www.googleapis.com/customsearch/v1?key=AIzaSyADOPSjmHQYFFf9ZnWTqVQ3kPRwr5ND6l8&cx=003054679763599795063:tka3twkxrbw&searchType=image&&fields=items(link,title,image/thumbnailLink)&start=%d&num=1&q=capybara"
+//#define URLFORMAT @"https://www.googleapis.com/customsearch/v1?key=AIzaSyDipywri5f6D__qqcCgvbBzP9uF5xbP9b0&cx=003054679763599795063:tka3twkxrbw&searchType=image&fields=items(link,title,image/thumbnailLink)&start=%d&num=1&q=capybara"
+//#define URLFORMAT @"https://www.googleapis.com/customsearch/v1?key=AIzaSyCv-rIYBwljnGmgJAxMIh8wBaXpqT6U-T0&cx=003054679763599795063:tka3twkxrbw&searchType=image&&fields=items(link,title,image/thumbnailLink)&start=%d&num=1&q=capybara"
+#define URLFORMAT @"https://www.googleapis.com/customsearch/v1?key=AIzaSyDhZSxw5rAjmGLHGBJH5ouHDWnMg42LW4g&cx=003054679763599795063:tka3twkxrbw&searchType=image&fields=items(link,title,image/thumbnailLink)&start=%d&num=1&q=capybara"
+//#define URLFORMAT @"https://www.googleapis.com/customsearch/v1?key=AIzaSyDipywri5f6D__qqcCgvbBzP9uF5xbP9b0&cx=003054679763599795063:tka3twkxrbw&searchType=image&fields=items(link,title,image/thumbnailLink)&start=%d&num=1&q=capybara"
 
 
-- (void)queryTerm:(NSString*)term excludeTerms:(NSString *)excludeTerms finishBlock:(void (^)(BOOL succeeded, NSString *link, NSString *title, NSError *error))finishBlock;
+- (void)queryTerm:(NSString*)term start:(NSInteger)start finishBlock:(void (^)(BOOL succeeded, NSString *link, NSString *thumbnailLink, NSString *title, NSError *error))finishBlock;
 {
-    __block void(^bfinishBlock)(BOOL succeeded, NSString *link, NSString *title, NSError *error) = finishBlock;
+    __block void(^bfinishBlock)(BOOL succeeded, NSString *link, NSString *thumbnailLink, NSString *title, NSError *error) = finishBlock;
     
-    NSString *urlString = URL;
+    NSString *urlString = [NSString stringWithFormat:URLFORMAT, (int)start];
     
     if (term.length)
     {
         NSString *searchTerm = [[NSString stringWithFormat:@" %@", term]  stringByAddingPercentEscapesUsingEncoding:NSStringEncodingConversionExternalRepresentation];
         urlString = [urlString stringByAppendingFormat:@"%@", searchTerm];
-    }
-    
-    if (excludeTerms)
-    {
-        NSString *excludeSearchTerms = [[NSString stringWithFormat:@"&excludeTerms=%@", excludeTerms] stringByAddingPercentEscapesUsingEncoding:NSStringEncodingConversionExternalRepresentation];
-        urlString = [urlString stringByAppendingFormat:@"%@", excludeSearchTerms];
     }
     
     NSURL *serviceUrl = [NSURL URLWithString:urlString];
@@ -79,7 +74,7 @@
         
         if (jsonError)
         {
-            bfinishBlock(NO, nil, nil, jsonError);
+            bfinishBlock(NO, nil, nil, nil, jsonError);
         }
         else
         {
@@ -87,10 +82,11 @@
             NSDictionary *itemFound = items.firstObject;
             NSString *title = itemFound[@"title"];
             NSString *link = itemFound[@"link"];
-            bfinishBlock(link ? YES : NO, link, title, nil);
+            NSString *thumbnailLink = itemFound[@"image"][@"thumbnailLink"];
+            bfinishBlock(link ? YES : NO, link, thumbnailLink, title, nil);
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        bfinishBlock(NO, nil, nil, error);
+        bfinishBlock(NO, nil, nil, nil, error);
     }];
     
     [operation start];

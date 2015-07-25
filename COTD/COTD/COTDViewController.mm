@@ -57,12 +57,17 @@
 
 - (void)handleParseFinishNotification:(NSNotification *)notification
 {
-    [self.view stopSpinner:1];
-    
     NSString *imageUrl = [[COTDParse sharedInstance] currentUserImageUrl];
     self.likeButton.enabled = (imageUrl);
     self.title = [[COTDParse sharedInstance] currentUserSearchTerm] ? : @"Capybara";
     [self.imageView setImageWithURL:[NSURL URLWithString:imageUrl]];
+    
+    __weak typeof(self) wself = self;
+    [[COTDParse sharedInstance] topTenImages:^(NSArray *objects, NSError *error) {
+        typeof(wself) sself = wself;
+        sself.gridButton.enabled = (!error && objects.count);
+        [sself.view stopSpinner:1];
+    }];
 }
 
 
@@ -98,6 +103,7 @@
         if (succeeded)
         {
             [COTDAlert alertWithFrame:sself.view.frame title:@"Congratulations" message:@"Successfull action" leftTitle:@"Ok" leftBlock:^{} rightTitle:nil rightBlock:nil];
+            [sself handleParseFinishNotification:nil];
         }
         else
         {
@@ -132,58 +138,70 @@
     
     [self.view startSpinnerWithString:[NSString stringWithFormat:@"Searching [%@]...", self.searchTerm] tag:1];
 
-    [[COTDGoogle sharedInstance] queryTerm:[[COTDParse sharedInstance] currentUserSearchTerm] excludeTerms:[[COTDParse sharedInstance] currentUserExcludeTerms] finishBlock:^(BOOL succeeded, NSString *link, NSString *title, NSError *error) {
+    [[COTDGoogle sharedInstance] queryTerm:[[COTDParse sharedInstance] currentUserSearchTerm] start:[[COTDParse sharedInstance] currentStart] finishBlock:^(BOOL succeeded, NSString *link, NSString *thumbnailLink, NSString *title, NSError *error) {
         typeof(self) sself = wself;
 
         [sself.view stopSpinner:1];
         
         if (succeeded)
         {
-            if (!link)
+            if (link)
+            {
+                if ([[COTDParse sharedInstance] isLinkRepeated:link])
+                {
+                    [COTDAlert alertWithFrame:sself.view.frame title:@"Warning" message:@"Result repeated. Random failed" leftTitle:@"Cancel" leftBlock:^{
+                        
+                    } rightTitle:@"Retry" rightBlock:^{
+                        typeof(self) sself = wself;
+                        [sself queryTerm];
+                    }];
+                }
+                else
+                {
+                    [[COTDParse sharedInstance] updateImage:link thumbnailUrl:thumbnailLink title:title searchTerm:wself.searchTerm finishBlock:^(BOOL succeeded, COTDImage *image, NSError *error) {
+                        typeof(self) sself = wself;
+                        
+                        if (succeeded)
+                        {
+                            if (!image)
+                            {
+                                [COTDAlert alertWithFrame:sself.view.frame title:@"Info" message:@"Cannot open image" leftTitle:@"Cancel" leftBlock:^{
+                                    
+                                } rightTitle:@"Retry" rightBlock:^{
+                                    typeof(self) sself = wself;
+                                    [sself queryTerm];
+                                }];
+                            }
+                            else
+                            {
+                                NSString *imageUrl = [NSString stringWithUTF8String:image->getFullUrl().c_str()];
+                                sself.likeButton.enabled = (imageUrl.length);
+                                sself.title = sself.searchTerm ? : @"Capybara";
+                                [sself.imageView setImageWithURL:[NSURL URLWithString:imageUrl]];
+                            }
+                        }
+                        else
+                        {
+                            [COTDAlert alertWithFrame:sself.view.frame title:@"Error" message:error
+                             .description leftTitle:@"Cancel" leftBlock:^{
+                                 
+                             } rightTitle:@"Retry" rightBlock:^{
+                                 typeof(self) sself = wself;
+                                 [sself queryTerm];
+                             }];
+                            
+                        }
+                        
+                    }];
+                }
+            }
+            else
             {
                 [COTDAlert alertWithFrame:sself.view.frame title:@"Info" message:@"No results" leftTitle:@"Cancel" leftBlock:^{
                     
                 } rightTitle:@"Retry" rightBlock:^{
                     typeof(self) sself = wself;
                     [sself queryTerm];
-                }];
-            }
-            else
-            {
-                [[COTDParse sharedInstance] updateImage:link title:title searchTerm:wself.searchTerm finishBlock:^(BOOL succeeded, COTDImage *image, NSError *error) {
-                    typeof(self) sself = wself;
-
-                    if (succeeded)
-                    {
-                        if (!image)
-                        {
-                            [COTDAlert alertWithFrame:sself.view.frame title:@"Info" message:@"Cannot open image" leftTitle:@"Cancel" leftBlock:^{
-                                
-                            } rightTitle:@"Retry" rightBlock:^{
-                                typeof(self) sself = wself;
-                                [sself queryTerm];
-                            }];
-                        }
-                        else
-                        {
-                            NSString *imageUrl = [NSString stringWithUTF8String:image->getFullUrl().c_str()];
-                            sself.likeButton.enabled = (imageUrl.length);
-                            sself.title = sself.searchTerm ? : @"Capybara";
-                            [sself.imageView setImageWithURL:[NSURL URLWithString:imageUrl]];
-                        }
-                    }
-                    else
-                    {
-                        [COTDAlert alertWithFrame:sself.view.frame title:@"Error" message:error
-                         .description leftTitle:@"Cancel" leftBlock:^{
-                            
-                        } rightTitle:@"Retry" rightBlock:^{
-                            typeof(self) sself = wself;
-                            [sself queryTerm];
-                        }];
-
-                    }
-
                 }];
             }
         }

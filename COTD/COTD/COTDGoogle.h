@@ -12,7 +12,7 @@
 
 + (COTDGoogle *)sharedInstance;
 
-- (void)queryTerm:(NSString*)term excludeTerms:(NSString *)excludeTerms finishBlock:(void (^)(BOOL succeeded, NSString *link, NSString *title, NSError *error))finishBlock;
+- (void)queryTerm:(NSString*)term start:(NSInteger)start finishBlock:(void (^)(BOOL succeeded, NSString *link, NSString *thumbnailLink, NSString *title, NSError *error))finishBlock;
 
 
 @end

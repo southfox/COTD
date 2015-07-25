@@ -124,7 +124,7 @@ NSString *const COTDParseServiceQueryDidFinishNotification = @"COTDParseServiceQ
     self.isUpdating = YES;
     __weak typeof(self) wself = self;
     
-    [wself queryImages:^(NSArray *objects, NSError *error) {
+    [wself queryImagesUsingLimit:1000 onlyLikes:NO finishBlock:^(NSArray *objects, NSError *error) {
         
         if (error)
         {
@@ -138,11 +138,12 @@ NSString *const COTDParseServiceQueryDidFinishNotification = @"COTDParseServiceQ
             if (objects.count)
             {
                 sself.images = [NSMutableArray new];
-                COTDImage *image = new COTDImage();
                 for (PFObject *object in objects)
                 {
+                    COTDImage *image = new COTDImage();
                     image->setObjectId((std::string)[object.objectId UTF8String]);
                     image->setFullUrl((std::string)[object[@"fullUrl"] UTF8String]);
+                    image->setThumbnailUrl((std::string)[object[@"thumbnailUrl"] UTF8String]);
                     image->setLikes([object[@"likes"] intValue]);
                     image->setImageTitle((std::string)[object[@"imageTitle"] UTF8String]);
                     [sself.images addObject:[NSValue valueWithPointer:image]];
@@ -160,7 +161,8 @@ NSString *const COTDParseServiceQueryDidFinishNotification = @"COTDParseServiceQ
                     }
                     else
                     {
-                        bfinishBlock(NO, [NSError errorWithMessage:@"Not getting any image"]);
+                        // Not really an error, no user image, so create one
+                        bfinishBlock(YES, nil);
                     }
                 }
                 else
@@ -169,14 +171,18 @@ NSString *const COTDParseServiceQueryDidFinishNotification = @"COTDParseServiceQ
                 }
             }];
         }
-    } limit:1000];
+    }];
 }
 
-- (void)queryImages:(void (^)(NSArray *objects, NSError *error))finishBlock limit:(int)limit
+- (void)queryImagesUsingLimit:(int)limit onlyLikes:(BOOL)onlyLikes finishBlock:(void (^)(NSArray *objects, NSError *error))finishBlock
 {
     PFQuery *query = [PFQuery queryWithClassName:@"COTDImage"];
+    if (onlyLikes)
+    {
+        [query whereKey:@"likes" greaterThan:@(0)];
+        [query orderByDescending:@"likes"];
+    }
     query.limit = limit;
-    [query orderByAscending:@"likes"];
     [query setCachePolicy:kPFCachePolicyNetworkOnly];
     
     [query findObjectsInBackgroundWithBlock:finishBlock];
@@ -191,6 +197,9 @@ NSString *const COTDParseServiceQueryDidFinishNotification = @"COTDParseServiceQ
 
     PFQuery *query = [PFQuery queryWithClassName:@"COTDUserImage"];
     [query whereKey:@"user" equalTo:[PFUser currentUser]];
+    NSDate *aWeekAgo = [[self today] addDays:-7];
+    [query whereKey:@"savedAt" greaterThanOrEqualTo:aWeekAgo];
+
     [query setCachePolicy:kPFCachePolicyNetworkOnly];
     
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
@@ -207,9 +216,9 @@ NSString *const COTDParseServiceQueryDidFinishNotification = @"COTDParseServiceQ
                 __strong typeof(self) sself = wself;
 
                 sself.userImages = [NSMutableArray new];
-                COTDUserImage *userImage = new COTDUserImage();
                 for (PFObject *object in objects)
                 {
+                    COTDUserImage *userImage = new COTDUserImage();
                     PFObject *image = object[@"image"];
                     std::string objectId = [image.objectId UTF8String];
                     userImage->setImage(objectId);
@@ -223,6 +232,7 @@ NSString *const COTDParseServiceQueryDidFinishNotification = @"COTDParseServiceQ
                         if (image->getObjectId() == objectId)
                         {
                             [sself.excludeTerms addObject:[NSString stringWithFormat:@"%s", image->getImageTitle().c_str()]];
+                            break;
                         }
                     }
                 }
@@ -303,6 +313,28 @@ NSString *const COTDParseServiceQueryDidFinishNotification = @"COTDParseServiceQ
     return imageTitle;
 }
 
+- (BOOL)isLinkRepeated:(NSString *)fullUrl
+{
+    std::string fullUrlString = [fullUrl UTF8String];
+    for (NSValue *userImageObject in self.userImages)
+    {
+        COTDUserImage *userImage = (COTDUserImage *)[userImageObject pointerValue];
+
+        for (NSValue *imageObject in self.images)
+        {
+            COTDImage *image = (COTDImage *)[imageObject pointerValue];
+            if (image->getObjectId() == userImage->getImage())
+            {
+                if (image->getFullUrl() == fullUrlString)
+                {
+                    return YES;
+                }
+            }
+        }
+    }
+    return NO;
+}
+
 - (NSString *)currentUserImageUrl
 {
     COTDUserImage *userImage = [self userImage];
@@ -333,17 +365,14 @@ NSString *const COTDParseServiceQueryDidFinishNotification = @"COTDParseServiceQ
     self.searchTerm = searchTerm;
 }
 
-- (NSString *)currentUserExcludeTerms
+- (NSUInteger)currentStart
 {
-    if (self.excludeTerms.count)
-    {
-        NSString *excludeTerms = [[self.excludeTerms allObjects] componentsJoinedByString:@" "];
-        return excludeTerms;
-    }
-    return nil;
+    NSInteger num = self.userImages.count + self.images.count + 1;
+    NSInteger r = num + arc4random()%15;
+    return r;
 }
 
-- (void)updateImage:(NSString *)imageUrl title:(NSString *)title searchTerm:(NSString *)searchTerm finishBlock:(void (^)(BOOL succeeded, COTDImage* image, NSError *error))finishBlock
+- (void)updateImage:(NSString *)imageUrl thumbnailUrl:(NSString *)thumbnailUrl title:(NSString *)title searchTerm:(NSString *)searchTerm finishBlock:(void (^)(BOOL succeeded, COTDImage* image, NSError *error))finishBlock
 {
     
     __block void(^bfinishBlock)(BOOL succeeded, COTDImage* image, NSError *error) = finishBlock;
@@ -394,6 +423,7 @@ NSString *const COTDParseServiceQueryDidFinishNotification = @"COTDParseServiceQ
         // Create a new image instance
         PFObject *pfimage = [PFObject objectWithClassName:@"COTDImage"];
         pfimage[@"fullUrl"] = imageUrl;
+        pfimage[@"thumbnailUrl"] = thumbnailUrl;
         pfimage[@"likes"] = @(0);
         pfimage[@"imageTitle"] = title;
         [pfimage saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
@@ -405,6 +435,7 @@ NSString *const COTDParseServiceQueryDidFinishNotification = @"COTDParseServiceQ
                     {
                         COTDImage *image = new COTDImage();
                         image->setFullUrl((std::string)[imageUrl UTF8String]);
+                        image->setThumbnailUrl((std::string)[thumbnailUrl UTF8String]);
                         image->setLikes(0);
                         image->setImageTitle((std::string)[title UTF8String]);
                         image->setObjectId((std::string)[object.objectId UTF8String]);
@@ -478,14 +509,6 @@ NSString *const COTDParseServiceQueryDidFinishNotification = @"COTDParseServiceQ
                                                  [sself.userImages addObject:[NSValue valueWithPointer:userImage]];
                                                  userImage->setSavedAt((std::string)[[[sself today] formattedDate] UTF8String]);
                                              }
-                                             else
-                                             {
-                                                 for (NSValue *userImageObject in self.userImages)
-                                                 {
-                                                     userImage = (COTDUserImage *)[userImageObject pointerValue];
-                                                     break;
-                                                 }
-                                             }
                                          }
 
                                          [[NSNotificationCenter defaultCenter] postNotificationName:COTDParseServiceQueryDidFinishNotification object:nil];
@@ -497,12 +520,12 @@ NSString *const COTDParseServiceQueryDidFinishNotification = @"COTDParseServiceQ
 
 - (NSDate *)today
 {
-    NSDate *today = [[NSDate date] addDays:0];
+    NSDate *today = [[NSDate date] addDays:13];
     return today;
 }
 
 - (void)topTenImages:(void (^)(NSArray *objects, NSError *error))finishBlock
 {
-    [self queryImages:finishBlock limit:10];
+    [self queryImagesUsingLimit:10 onlyLikes:YES finishBlock:finishBlock];
 }
 @end
