@@ -9,9 +9,6 @@
 #ifndef __COTD__COTDUserImage__
 #define __COTD__COTDUserImage__
 
-#import <Parse/Parse.h>
-#import <PFUser.h>
-
 #include <stdio.h>
 #include <string>
 
@@ -24,12 +21,11 @@ protected:
     std::string savedAt;
     
 public:
+    
+    COTDUserImage(const char *image, const char *savedAt);
 
     const std::string& getImage() const;
-    void setImage(const std::string& image);
-    
     const std::string& getSavedAt() const;
-    void setSavedAt(const std::string& savedAt);
 };
 
 #endif /* defined(__COTD__COTDUserImage__) */

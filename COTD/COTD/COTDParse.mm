@@ -78,12 +78,10 @@ NSString *const COTDParseServiceQueryDidFinishNotification = @"COTDParseServiceQ
     void(^blockAfterSave)(BOOL succeeded, NSError *error) = ^(BOOL succeeded, NSError *error)
     {
         typeof(self) sself = wself;
+        
         PFACL *defaultACL = [PFACL ACL];
-        
         [PFACL setDefaultACL:defaultACL withAccessForCurrentUser:YES];
-        
         [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
-        
         [sself querys:^(BOOL succeeded, NSError *error) {
             if (succeeded)
             {
@@ -106,12 +104,19 @@ NSString *const COTDParseServiceQueryDidFinishNotification = @"COTDParseServiceQ
     {
         [PFUser enableAutomaticUser];
         user = [PFUser currentUser];
-        
+        user.ACL = [self postACL];
         [user saveInBackgroundWithBlock:blockAfterSave];
     }
     
 }
 
+- (PFACL *)postACL
+{
+    PFACL *postACL = [PFACL ACLWithUser:[PFUser currentUser]];
+    [postACL setPublicReadAccess:YES];
+    [postACL setPublicWriteAccess:YES];
+    return postACL;
+}
 
 - (void)querys:(void (^)(BOOL succeeded, NSError *error))finishBlock;
 {
@@ -140,12 +145,11 @@ NSString *const COTDParseServiceQueryDidFinishNotification = @"COTDParseServiceQ
                 sself.images = [NSMutableArray new];
                 for (PFObject *object in objects)
                 {
-                    COTDImage *image = new COTDImage();
-                    image->setObjectId((std::string)[object.objectId UTF8String]);
-                    image->setFullUrl((std::string)[object[@"fullUrl"] UTF8String]);
-                    image->setThumbnailUrl((std::string)[object[@"thumbnailUrl"] UTF8String]);
-                    image->setLikes([object[@"likes"] intValue]);
-                    image->setImageTitle((std::string)[object[@"imageTitle"] UTF8String]);
+                    COTDImage *image = new COTDImage([object.objectId UTF8String],
+                                                     [object[@"fullUrl"] UTF8String],
+                                                     [object[@"thumbnailUrl"] UTF8String],
+                                                     [object[@"imageTitle"] UTF8String],
+                                                     [object[@"likes"] intValue]);
                     [sself.images addObject:[NSValue valueWithPointer:image]];
                 }
             }
@@ -218,18 +222,15 @@ NSString *const COTDParseServiceQueryDidFinishNotification = @"COTDParseServiceQ
                 sself.userImages = [NSMutableArray new];
                 for (PFObject *object in objects)
                 {
-                    COTDUserImage *userImage = new COTDUserImage();
                     PFObject *image = object[@"image"];
                     std::string objectId = [image.objectId UTF8String];
-                    userImage->setImage(objectId);
-                    
                     NSDate *savedAt = object[@"savedAt"];
-                    userImage->setSavedAt((std::string)[[savedAt formattedDate] UTF8String]);
+                    COTDUserImage *userImage = new COTDUserImage([image.objectId UTF8String], [[savedAt formattedDate] UTF8String]);
                     [sself.userImages addObject:[NSValue valueWithPointer:userImage]];
                     for (NSValue *imageObject in sself.images)
                     {
                         COTDImage *image = (COTDImage *)[imageObject pointerValue];
-                        if (image->getObjectId() == objectId)
+                        if (image->getObjectId() == userImage->getImage())
                         {
                             [sself.excludeTerms addObject:[NSString stringWithFormat:@"%s", image->getImageTitle().c_str()]];
                             break;
@@ -263,6 +264,7 @@ NSString *const COTDParseServiceQueryDidFinishNotification = @"COTDParseServiceQ
                                          if (!error)
                                          {
                                              object[@"likes"] = @([object[@"likes"] intValue] + 1);
+                                             object.ACL = [self postACL];
                                              [object saveInBackgroundWithBlock:bfinishBlock];
                                          }
                                          else
@@ -426,6 +428,7 @@ NSString *const COTDParseServiceQueryDidFinishNotification = @"COTDParseServiceQ
         pfimage[@"thumbnailUrl"] = thumbnailUrl;
         pfimage[@"likes"] = @(0);
         pfimage[@"imageTitle"] = title;
+        pfimage.ACL = [self postACL];
         [pfimage saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             if (succeeded)
             {
@@ -433,13 +436,11 @@ NSString *const COTDParseServiceQueryDidFinishNotification = @"COTDParseServiceQ
                 [pfimage fetchIfNeededInBackgroundWithBlock:^(PFObject *object, NSError *error) {
                     if (!error)
                     {
-                        COTDImage *image = new COTDImage();
-                        image->setFullUrl((std::string)[imageUrl UTF8String]);
-                        image->setThumbnailUrl((std::string)[thumbnailUrl UTF8String]);
-                        image->setLikes(0);
-                        image->setImageTitle((std::string)[title UTF8String]);
-                        image->setObjectId((std::string)[object.objectId UTF8String]);
-
+                        COTDImage *image = new COTDImage([object.objectId UTF8String],
+                                                         [imageUrl UTF8String],
+                                                         [thumbnailUrl UTF8String],
+                                                         [title UTF8String],
+                                                         0);
                         __strong typeof(self) sself = wself;
                         
                         [sself.images addObject:[NSValue valueWithPointer:image]];
@@ -503,11 +504,9 @@ NSString *const COTDParseServiceQueryDidFinishNotification = @"COTDParseServiceQ
                                              COTDUserImage *userImage = nil;
                                              if (isNew)
                                              {
-                                                 userImage = new COTDUserImage();
-                                                 userImage->setImage((std::string)[image.objectId UTF8String]);
+                                                 userImage = new COTDUserImage([image.objectId UTF8String], [[[sself today] formattedDate] UTF8String]);
                                                  __strong typeof(self) sself = wself;
                                                  [sself.userImages addObject:[NSValue valueWithPointer:userImage]];
-                                                 userImage->setSavedAt((std::string)[[[sself today] formattedDate] UTF8String]);
                                              }
                                          }
 
