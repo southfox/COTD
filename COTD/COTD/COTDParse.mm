@@ -21,7 +21,6 @@ NSString *const COTDParseServiceQueryDidFinishNotification = @"COTDParseServiceQ
 @property (nonatomic) BOOL isUpdating;
 @property (nonatomic) NSMutableArray *images;
 @property (nonatomic) NSMutableArray *userImages;
-@property (nonatomic) NSMutableSet *excludeTerms;
 @property (nonatomic) NSString *searchTerm;
 @end
 
@@ -62,7 +61,6 @@ NSString *const COTDParseServiceQueryDidFinishNotification = @"COTDParseServiceQ
     if (self) {
         self.userImages = [NSMutableArray array];
         self.images = [NSMutableArray array];
-        self.excludeTerms = [NSMutableSet set];
         [Parse setApplicationId:@"4w57EiBsbDCULkdlP5q1Q0R5bLPDupCbokbNT4KU" clientKey:@"0zDVtm3iDrB1mWEyg5860SFrLYpdsJMYbSFxLhBO"];
     }
     return self;
@@ -104,7 +102,7 @@ NSString *const COTDParseServiceQueryDidFinishNotification = @"COTDParseServiceQ
     {
         [PFUser enableAutomaticUser];
         user = [PFUser currentUser];
-        user.ACL = [self postACL];
+//        user.ACL = [self postACL];
         [user saveInBackgroundWithBlock:blockAfterSave];
     }
     
@@ -227,15 +225,6 @@ NSString *const COTDParseServiceQueryDidFinishNotification = @"COTDParseServiceQ
                     NSDate *savedAt = object[@"savedAt"];
                     COTDUserImage *userImage = new COTDUserImage([image.objectId UTF8String], [[savedAt formattedDate] UTF8String]);
                     [sself.userImages addObject:[NSValue valueWithPointer:userImage]];
-                    for (NSValue *imageObject in sself.images)
-                    {
-                        COTDImage *image = (COTDImage *)[imageObject pointerValue];
-                        if (image->getObjectId() == userImage->getImage())
-                        {
-                            [sself.excludeTerms addObject:[NSString stringWithFormat:@"%s", image->getImageTitle().c_str()]];
-                            break;
-                        }
-                    }
                 }
             }
             bfinishBlock(YES, nil);
@@ -493,10 +482,6 @@ NSString *const COTDParseServiceQueryDidFinishNotification = @"COTDParseServiceQ
                                      if (image)
                                      {
                                          userImage[@"image"] = image;
-                                     }
-                                     if (excludeTerm)
-                                     {
-                                         [sself.excludeTerms addObject:excludeTerm];
                                      }
                                      [userImage saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                                          if (succeeded)

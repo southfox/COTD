@@ -3,7 +3,7 @@
 //  COTD
 //
 //  Created by Javier Fuchs on 7/20/15.
-//  Copyright (c) 2015 relbane. All rights reserved.
+//  Copyright (c) 2015 javierfuchs. All rights reserved.
 //
 
 #import "COTDAppDelegate.h"

@@ -12,7 +12,7 @@
 
 + (id)errorWithMessage:(NSString *)message;
 {
-    return [NSError errorWithDomain:@"com.relbane.COTD" code:-1 userInfo:@{@"inner_error_object" : message}];
+    return [NSError errorWithDomain:@"com.javierfuchs.COTD" code:-1 userInfo:@{@"inner_error_object" : message}];
 }
 
 @end
